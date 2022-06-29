@@ -1,35 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:online_voting_app/screens/root_screen.dart';
 import 'package:provider/provider.dart';
-
 import '../models/current_user.dart';
+import '../state/vote_state.dart';
+import '../widgets/show_vote_list.dart';
+import 'root_screen.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
- 
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
 
- @override
+    Future.microtask(() {
+      Provider.of<VoteState>(context, listen: false).clearState();
+      Provider.of<VoteState>(context, listen: false).loadVoteList(context);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      backgroundColor: Colors.amber,
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.teal.shade100,
+        title: const Text(
+          'Home Screen',
+          style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              ),
+        ),
+        centerTitle: true,
+      ),
+      drawer: Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
         children: [
-          const Text(
-            "Hello",
-            style: TextStyle(
-                fontSize: 40, color: Colors.white, fontWeight: FontWeight.bold),
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Text('Will prolly add logged in users details here later.'),
           ),
-          TextButton(
-            // onPressed: () {},
-            onPressed: () async {
+          ListTile(
+            leading: const Icon(
+              Icons.home,
+            ),
+            title: const Text('Page 1'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.logout_outlined,
+            ),
+            title: const Text('LogOut'),
+            onTap: () async {
               CurrentUser currentUser =
                   Provider.of<CurrentUser>(context, listen: false);
               final navigator = Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const RootScreen()), (route) => false);
@@ -39,21 +72,14 @@ class _HomePageState extends State<HomePage> {
                 navigator;
               }
             },
-            child: Text(
-              "Sign out".toUpperCase(),
-              style: const TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-          )
+          ),
         ],
-      )),
+      ),
+    ),
+      backgroundColor: Colors.teal.shade100,
+      body: Column(children: const [
+        ShowVoteList(),
+      ]),
     );
-
   }
 }
-
-
-
-

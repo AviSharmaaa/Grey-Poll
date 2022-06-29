@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:online_voting_app/models/current_user.dart';
-import 'package:online_voting_app/screens/home_page.dart';
-import 'package:online_voting_app/screens/login_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../models/current_user.dart';
+import 'home_page.dart';
+import 'login_screen.dart';
 
 enum AuthStatus {
   notLoggedIn,
@@ -37,7 +38,7 @@ class _RootScreenState extends State<RootScreen> {
     Widget response;
     switch (_authStatus) {
       case AuthStatus.loggedIn:
-        response = const HomePage();
+        response = const HomeScreen();
         break;
       case AuthStatus.notLoggedIn:
         response = const LoginScreen();

@@ -1,9 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:online_voting_app/screens/root_screen.dart';
-import 'package:online_voting_app/utils/app_theme.dart';
 import 'package:provider/provider.dart';
 import 'models/current_user.dart';
+import 'screens/root_screen.dart';
+import 'state/vote_state.dart';
+import 'utils/app_theme.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +24,10 @@ class GreyPoll extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => CurrentUser(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => VoteState()
+        )
+
       ],
       child: MaterialApp(
         title: 'Grey Poll',
