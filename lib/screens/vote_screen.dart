@@ -1,13 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import '../models/current_user.dart';
+import '../models/user_model.dart';
 import '../models/vote_model.dart';
 import '../services/mock_data.dart';
 import '../state/vote_state.dart';
+import '../widgets/snack_bar.dart';
 import 'home_page.dart';
 import 'result_screen.dart';
-
 
 class VoteScreen extends StatelessWidget {
   const VoteScreen({Key? key}) : super(key: key);
@@ -15,6 +16,8 @@ class VoteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VoteModel? activeVote = Provider.of<VoteState>(context).activeVote;
+    UserModel currentUser =
+        Provider.of<CurrentUser>(context, listen: false).getCurrentUser;
     List<String> options = [];
 
     for (Map<String, int> option in activeVote!.options!) {
@@ -31,8 +34,7 @@ class VoteScreen extends StatelessWidget {
           ),
           onPressed: () {
             if (isOptionSelected(context)) {
-
-              castMyVote(context);
+              castMyVote(context, currentUser);
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -129,18 +131,16 @@ class VoteScreen extends StatelessWidget {
     return true;
   }
 
-  void showSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
-  }
-
-  void castMyVote(BuildContext context) {
+  void castMyVote(BuildContext context, UserModel currentUser) {
     final voteId =
         Provider.of<VoteState>(context, listen: false).activeVote?.voteId;
 
     final selectedOption =
         Provider.of<VoteState>(context, listen: false).selecetedOption;
 
-    markVote(voteId!, selectedOption!);
+    List<String>? updatedList = currentUser.participatedInPoll;
+    updatedList?.add(voteId!);
+
+    markVote(voteId!, selectedOption!, updatedList!);
   }
 }

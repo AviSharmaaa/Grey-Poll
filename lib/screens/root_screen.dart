@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../models/current_user.dart';
 import 'home_page.dart';
 import 'login_screen.dart';
@@ -25,7 +24,7 @@ class _RootScreenState extends State<RootScreen> {
     super.didChangeDependencies();
 
     CurrentUser currentUser = Provider.of<CurrentUser>(context, listen: false);
-    String val = await currentUser.onStartUp();
+    String val = await currentUser.onStartUp(context);
     if (val == "success") {
       setState(() {
         _authStatus = AuthStatus.loggedIn;

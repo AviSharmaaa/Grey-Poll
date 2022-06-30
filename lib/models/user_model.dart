@@ -5,13 +5,17 @@ class UserModel {
   String? name;
   String? email;
   String? password;
+  String? displayPicture;
   Timestamp? accountCreatedAt;
-  
+  List<String>? participatedInPoll;
+
   UserModel({
     this.uid,
     this.name,
     this.email,
     this.password,
+    this.displayPicture,
     this.accountCreatedAt,
+    this.participatedInPoll,
   });
 }

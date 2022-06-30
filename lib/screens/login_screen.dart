@@ -1,10 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:online_voting_app/models/current_user.dart';
-import 'package:online_voting_app/screens/root_screen.dart';
-import 'package:online_voting_app/screens/signup_screen.dart';
-import 'package:online_voting_app/widgets/header.dart';
 import 'package:provider/provider.dart';
+
+import '../models/current_user.dart';
+import '../widgets/header.dart';
+import 'root_screen.dart';
+import 'signup_screen.dart';
 
 enum LoginType {
   email,
@@ -30,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
       String? email,
       String? password,
       BuildContext? context}) async {
+    String error = '';
     CurrentUser currentUser = Provider.of<CurrentUser>(context!, listen: false);
 
     try {
@@ -40,10 +42,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
       switch (type) {
         case LoginType.email:
-          response = await currentUser.loginInWithEmail(email!, password!);
+          response =
+              await currentUser.loginInWithEmail(context, email!, password!);
           break;
         case LoginType.google:
-          response = await currentUser.loginInWithGoogle();
+          response = await currentUser.loginInWithGoogle(context);
           break;
         default:
       }
@@ -61,17 +64,14 @@ class _LoginScreenState extends State<LoginScreen> {
             duration: Duration(seconds: 2)));
       }
     } catch (e) {
-      print(e);
+      error = e.toString();
     }
   }
 
   Widget _googleButton() {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
-        // splashColor: Colors.grey,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-        // highlightElevation: 0,
-        // borderSide: BorderSide(color: Colors.grey),
       ),
       onPressed: () {
         _logInUser(type: LoginType.google, context: context);
@@ -267,7 +267,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             const TextSpan(text: "Dont't have an account?"),
                             TextSpan(
                               text: 'Create',
-                              recognizer: TapGestureRecognizer()..onTap = () {
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
