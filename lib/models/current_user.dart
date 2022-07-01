@@ -67,6 +67,17 @@ class CurrentUser extends ChangeNotifier {
     return retVal;
   }
 
+  Future<String> resetPassword(String email) async {
+    String retVal = "error";
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      retVal = "success";
+    } catch (e) {
+      retVal = e.toString();
+    }
+    return retVal;
+  }
+
   Future<String> loginInWithEmail(
       BuildContext context, String email, String password) async {
     String retVal = "error";

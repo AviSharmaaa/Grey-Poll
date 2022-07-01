@@ -1,5 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/widgets/snack_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../models/current_user.dart';
@@ -65,6 +68,25 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } catch (e) {
       error = e.toString();
+    }
+  }
+
+  void _resetPassword({BuildContext? context, String? email}) async {
+    String response = 'error';
+    CurrentUser currentUser = Provider.of<CurrentUser>(context!, listen: false);
+
+    try {
+      response = await currentUser.resetPassword(email!);
+      if (response == "success") {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
+            (route) => false);
+      } else {
+        showSnackBar(context, "Something went wrong. Try Again");
+      }
+    } catch (e) {
+      response = e.toString();
     }
   }
 
@@ -197,7 +219,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
                         alignment: Alignment.topRight,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            _resetPassword(context: context,email: _emailController.text);
+                          },
                           child: const Text(
                             "Forgot your password?",
                             style: TextStyle(
