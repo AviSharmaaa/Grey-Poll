@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../state/vote_state.dart';
+import '../utils/app_theme.dart';
 import '../widgets/drawer_widget.dart';
 import '../widgets/show_vote_list.dart';
 
@@ -12,7 +13,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -25,24 +25,51 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.teal.shade100,
-        title: const Text(
-          'Home Screen',
-          style: TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context).primaryColor,
+            AppTheme().getSecondaryColor,
+            AppTheme().getSecondaryColor2,
+            Colors.blueAccent,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          tileMode: TileMode.clamp,
         ),
-        centerTitle: true,
       ),
-      drawer: const DrawerWidget(),
-      backgroundColor: Colors.teal.shade100,
-      body: Column(children: const [
-        ShowVoteList(),
-      ]),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          title: const Text(
+            'GreyPoll',
+            style: TextStyle(
+              fontSize: 26,
+              color: Colors.white,
+            ),
+          ),
+          centerTitle: true,
+        ),
+        drawer: const DrawerWidget(),
+        backgroundColor: Colors.transparent,
+        body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Padding(
+                padding: EdgeInsets.only(top: 30, left: 15, bottom: 7),
+                child: Text(
+                  'Active Polls',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              ShowVoteList(),
+            ]),
+      ),
     );
   }
 }

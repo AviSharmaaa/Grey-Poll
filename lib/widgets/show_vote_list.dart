@@ -6,6 +6,7 @@ import '../models/vote_model.dart';
 import '../screens/vote_screen.dart';
 import '../state/vote_state.dart';
 import 'alert_dialog.dart';
+import 'container_widget.dart';
 
 class ShowVoteList extends StatelessWidget {
   const ShowVoteList({Key? key}) : super(key: key);
@@ -28,43 +29,53 @@ class ShowVoteList extends StatelessWidget {
       return Column(
         children: <Widget>[
           for (VoteModel vote in voteState.voteList)
-            Card(
-                color:
-                    activeVoteId == vote.voteId ? Colors.green : Colors.white,
-                child: ListTile(
-                  title: Container(
-                    padding: const EdgeInsets.all(15),
-                    child: Text(
-                      vote.voteTitle!,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 20, 10, 15),
+              child: ContainerWidget(
+                  color:
+                      activeVoteId == vote.voteId ? Colors.green : Colors.white,
+                  child: ListTile(
+                    title: Container(
+                      padding: const EdgeInsets.all(15),
+                      child: Text(
+                        vote.voteTitle!,
+                        style: const TextStyle(
+                          fontSize: 22,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
-                  ),
-                  onLongPress: () {
-                    Provider.of<VoteState>(context, listen: false).activeVote =
-                        vote;
-                    if (checkIfAlreadyVoted(
-                        Provider.of<VoteState>(context, listen: false)
-                            .activeVote!
-                            .voteId)) {
-                      showAlertDialog(context);
-                    } else {
-                      Future.delayed(const Duration(milliseconds: 100), () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const VoteScreen()));
-                      });
-                    }
-                  },
-                  selected: activeVoteId == vote.voteId ? true : false,
-                  // onTap: () {
-                  //   Provider.of<VoteState>(context, listen: false).activeVote =
-                  //       vote;
-                  // },
-                )),
+                    onLongPress: () {
+                      Provider.of<VoteState>(context, listen: false)
+                          .activeVote = vote;
+                      if (checkIfAlreadyVoted(
+                          Provider.of<VoteState>(context, listen: false)
+                              .activeVote!
+                              .voteId)) {
+                        showAlertDialog(context);
+
+                        // Future.delayed(const Duration(seconds: 2), () {
+                        //   Provider.of<VoteState>(context, listen: false)
+                        //       .clearState();
+                        //   Provider.of<VoteState>(context, listen: false)
+                        //       .loadVoteList(context);
+                        // });
+                      } else {
+                        Future.delayed(const Duration(milliseconds: 100), () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const VoteScreen()));
+                        });
+                      }
+                    },
+                    selected: activeVoteId == vote.voteId ? true : false,
+                    // onTap: () {
+                    //   Provider.of<VoteState>(context, listen: false).activeVote =
+                    //       vote;
+                    // },
+                  )),
+            ),
         ],
       );
     });

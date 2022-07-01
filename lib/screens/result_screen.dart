@@ -3,12 +3,11 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../models/vote_model.dart';
 import '../services/mock_data.dart';
 import '../state/vote_state.dart';
+import '../widgets/header.dart';
 import 'home_page.dart';
-
 
 class ResultScreen extends StatelessWidget {
   const ResultScreen({Key? key}) : super(key: key);
@@ -27,14 +26,27 @@ class ResultScreen extends StatelessWidget {
     }
 
     return Scaffold(
-        backgroundColor: Colors.cyan.shade200,
-        body: SafeArea(
-          child: Column(
+      body: Column(
+        children: [
+          Stack(
             children: [
+              SizedBox(
+                height: 250,
+                child: Header(250, true, Icons.poll_outlined),
+              ),
               Container(
+                margin: const EdgeInsets.fromLTRB(35, 180, 25, 10),
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white),
+                  borderRadius: BorderRadius.circular(50),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      blurRadius: 25.0,
+                    ),
+                  ],
+                ),
                 height: 100,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: Row(
@@ -50,7 +62,7 @@ class ResultScreen extends StatelessWidget {
                         },
                         child: Icon(
                           Icons.arrow_back_outlined,
-                          size: 40,
+                          size: 30,
                         )),
                     Center(
                       child: Text(
@@ -62,21 +74,21 @@ class ResultScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(
-                flex: 2,
-                child:
-                    Text('Will add some design or something like that here :)'),
-              ),
-              Container(
-                padding: const EdgeInsets.all(20),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.5,
-                color: Colors.white,
-                child: createChart(context),
-              ),
             ],
           ),
-        ));
+          SizedBox(
+            height: 115,
+          ),
+          Container(
+            padding: const EdgeInsets.all(20),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.5,
+            color: Colors.white,
+            child: createChart(context),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget createChart(BuildContext context) {
@@ -108,9 +120,9 @@ class ResultScreen extends StatelessWidget {
         id: 'VoteResult',
         colorFn: (_, pos) {
           if (pos! % 2 == 0) {
-            return charts.MaterialPalette.green.shadeDefault;
+            return charts.MaterialPalette.purple.shadeDefault;
           }
-          return charts.MaterialPalette.blue.shadeDefault;
+          return charts.MaterialPalette.indigo.shadeDefault;
         },
         domainFn: (VoteData vote, _) => vote.option,
         measureFn: (VoteData vote, _) => vote.total,

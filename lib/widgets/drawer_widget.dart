@@ -1,4 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/screens/profile_screen.dart';
+import 'package:online_voting_app/utils/app_theme.dart';
 import 'package:provider/provider.dart';
 import '../models/current_user.dart';
 import '../models/user_model.dart';
@@ -13,60 +17,74 @@ class DrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserModel user =
         Provider.of<CurrentUser>(context, listen: false).getCurrentUser;
-    final nameFirstLetter = user.name![0];
-    // print(user.password);
-    // print(user.name);
+    // final nameFirstLetter = user.name![0];
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
             currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  user.displayPicture!),
+              backgroundImage: NetworkImage(user.displayPicture!),
             ),
             accountEmail: Text(user.email!),
             accountName: Text(
               user.name!,
               style: const TextStyle(fontSize: 24.0),
             ),
-            decoration: const BoxDecoration(
-              color: Colors.black87,
+            decoration: BoxDecoration(
+              color: AppTheme().getSecondaryColor,
             ),
           ),
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               Icons.person,
               size: 38,
+              color: AppTheme().getSecondaryTextColor,
             ),
-            title: const Text(
+            title: Text(
               'Profile',
-              style: TextStyle(fontSize: 22),
+              style: TextStyle(
+                fontSize: 22,
+                color: AppTheme().getSecondaryTextColor,
+              ),
             ),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProfileScreen(),
+                  ));
             },
           ),
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               Icons.logout_outlined,
               size: 38,
+              color: AppTheme().getSecondaryTextColor,
             ),
-            title: const Text(
+            title: Text(
               'LogOut',
-              style: TextStyle(fontSize: 22),
+              style: TextStyle(
+                fontSize: 22,
+                color: AppTheme().getSecondaryTextColor,
+              ),
             ),
             onTap: () async {
               CurrentUser currentUser =
                   Provider.of<CurrentUser>(context, listen: false);
-              final navigator = Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const RootScreen()),
-                  (route) => false);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const RootScreen()),
+                (route) => false,
+              );
+
               String response = await currentUser.signOut();
 
               if (response == "success") {
-                navigator;
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const RootScreen()),
+                    (route) => false);
               }
             },
           ),

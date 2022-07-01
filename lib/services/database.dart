@@ -36,6 +36,7 @@ class Database {
     UserModel currUser = UserModel();
     List<Map<String, dynamic>> currentUser = [];
     List<String> pollsParticipated = [];
+    String? error;
 
     try {
       DocumentSnapshot snapshot =
@@ -59,7 +60,7 @@ class Database {
       Provider.of<CurrentUser>(context, listen: false).setCurrentUser =
           currUser;
     } catch (e) {
-      print(e);
+      error = e.toString();
     }
     return currUser;
   }

@@ -30,6 +30,7 @@ class GreyPoll extends StatelessWidget {
 
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Grey Poll',
         theme: AppTheme().buildTheme(),
         home: const RootScreen(),
