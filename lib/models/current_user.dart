@@ -82,10 +82,11 @@ class CurrentUser extends ChangeNotifier {
   Future<String> loginInWithEmail(String email, String password) async {
     String retVal = "error";
     try {
-      UserCredential authResult = await _auth.signInWithEmailAndPassword(email: email, password: password);
-    
+      UserCredential authResult = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+
       currentUser = await Database().getUserInfo(authResult.user!.uid);
-     
+
       if (currentUser.uid != null) {
         retVal = "success";
       }
@@ -140,13 +141,25 @@ class CurrentUser extends ChangeNotifier {
     return retVal;
   }
 
+  Future<String> updateName(String name) async {
+    String response = 'error';
+    try {
+      await Database().updateUserName(name).then((val) {
+        response = 'success';
+      });
+    } catch (e) {
+      response = e.toString();
+    }
+    return response;
+  }
+
   Future<String> updateEmail(String email) async {
     String response = 'error';
     final User firebaseUser = _auth.currentUser!;
 
     try {
-      await firebaseUser.updateEmail(email).then((val) {
-        response = 'success';
+      await firebaseUser.updateEmail(email).then((val) async {
+        response = await Database().updateUserEmail(email);
       });
     } catch (e) {
       response = e.toString();
@@ -159,8 +172,8 @@ class CurrentUser extends ChangeNotifier {
     final User firebaseUser = _auth.currentUser!;
 
     try {
-      await firebaseUser.updatePassword(password).then((value) {
-        response = 'success';
+      await firebaseUser.updatePassword(password).then((value) async {
+        response = await Database().updateUserPassword(password);
       });
     } catch (e) {
       response = e.toString();

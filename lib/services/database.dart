@@ -71,7 +71,7 @@ class Database {
     });
   }
 
-  Future<String> updateUser(String name, String email, String password) async {
+  Future<String> updateUserName(String name) async {
     String response = 'error';
 
     try {
@@ -80,8 +80,40 @@ class Database {
           .doc(currentUser.uid)
           .update({
         'name': name,
-        'email': email,
+      });
+      response = 'success';
+    } catch (e) {
+      response = 'Something went wrong. Try Again Later!';
+    }
+    return response;
+  }
+
+  Future<String> updateUserPassword(String password) async {
+    String response = 'error';
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('usersDB')
+          .doc(currentUser.uid)
+          .update({
         'password': password,
+      });
+      response = 'success';
+    } catch (e) {
+      response = 'Something went wrong. Try Again Later!';
+    }
+    return response;
+  }
+
+  Future<String> updateUserEmail(String email) async {
+    String response = 'error';
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('usersDB')
+          .doc(currentUser.uid)
+          .update({
+        'email': email,
       });
       response = 'success';
     } catch (e) {
