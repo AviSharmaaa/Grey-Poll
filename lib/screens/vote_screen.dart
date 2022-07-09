@@ -16,15 +16,14 @@ class VoteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VoteModel? activeVote = Provider.of<VoteState>(context).activeVote;
-    UserModel currentUser =
-        Provider.of<CurrentUser>(context, listen: false).getCurrentUser;
-    List<String> options = [];
 
-    for (Map<String, int> option in activeVote!.options!) {
-      option.forEach((title, value) {
-        options.add(title);
-      });
-    }
+    UserModel currentUser = Provider.of<CurrentUser>(context, listen: false).getCurrentUser;
+
+    List<String> pollOptions = [];
+
+    activeVote!.options!.forEach(
+      (key, value) => pollOptions.add(key),
+    );
 
     return Container(
       decoration: BoxDecoration(
@@ -43,7 +42,7 @@ class VoteScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         floatingActionButton: FloatingActionButton.extended(
-          backgroundColor: AppTheme().getPrimaryColor,
+            backgroundColor: AppTheme().getPrimaryColor,
             label: const Text(
               'Confirm',
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -90,7 +89,7 @@ class VoteScreen extends StatelessWidget {
                     ]),
               ),
             ),
-            for (String option in options)
+            for (String option in pollOptions)
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 15, 20, 30),
                 child: InkWell(
@@ -112,7 +111,8 @@ class VoteScreen extends StatelessWidget {
                           children: [
                             Text(
                               option,
-                              style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w500),
+                              style: const TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w500),
                             ),
                             if (Provider.of<VoteState>(context, listen: false)
                                     .selecetedOption ==
@@ -143,15 +143,15 @@ class VoteScreen extends StatelessWidget {
   }
 
   void castMyVote(BuildContext context, UserModel currentUser) {
-    final voteId =
-        Provider.of<VoteState>(context, listen: false).activeVote?.voteId;
+    final VoteModel vote =
+        Provider.of<VoteState>(context, listen: false).activeVote!;
 
     final selectedOption =
         Provider.of<VoteState>(context, listen: false).selecetedOption;
 
     List<String>? updatedList = currentUser.participatedInPoll;
-    updatedList?.add(voteId!);
+    updatedList?.add(vote.voteId!);
 
-    markVote(voteId!, selectedOption!, updatedList!);
+    PollDatabase().markVote(vote, selectedOption!, updatedList!);
   }
 }

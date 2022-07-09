@@ -24,7 +24,7 @@ class _RootScreenState extends State<RootScreen> {
     super.didChangeDependencies();
 
     CurrentUser currentUser = Provider.of<CurrentUser>(context, listen: false);
-    String val = await currentUser.onStartUp(context);
+    String val = await currentUser.onStartUp();
     if (val == "success") {
       setState(() {
         _authStatus = AuthStatus.loggedIn;

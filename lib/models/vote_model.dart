@@ -1,11 +1,13 @@
 class VoteModel {
   String? voteId;
   String? voteTitle;
-  List<Map<String, int>>? options;
+  String? createdBy;
+  Map<String, dynamic>? options;
 
   VoteModel({
     this.voteId,
     this.voteTitle,
+    this.createdBy,
     this.options,
   });
 }

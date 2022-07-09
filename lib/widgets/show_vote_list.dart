@@ -15,14 +15,12 @@ class ShowVoteList extends StatelessWidget {
   Widget build(BuildContext context) {
     String activeVoteId =
         Provider.of<VoteState>(context, listen: true).activeVote?.voteId ?? '';
+
     UserModel currentUser =
         Provider.of<CurrentUser>(context, listen: false).getCurrentUser;
 
     bool checkIfAlreadyVoted(voteId) {
-      if (currentUser.participatedInPoll!.contains(voteId)) {
-        return true;
-      }
-      return false;
+      return (currentUser.participatedInPoll!.contains(voteId));
     }
 
     return Consumer<VoteState>(builder: (context, voteState, child) {
@@ -48,18 +46,12 @@ class ShowVoteList extends StatelessWidget {
                     onLongPress: () {
                       Provider.of<VoteState>(context, listen: false)
                           .activeVote = vote;
+
                       if (checkIfAlreadyVoted(
                           Provider.of<VoteState>(context, listen: false)
                               .activeVote!
                               .voteId)) {
                         showAlertDialog(context);
-
-                        // Future.delayed(const Duration(seconds: 2), () {
-                        //   Provider.of<VoteState>(context, listen: false)
-                        //       .clearState();
-                        //   Provider.of<VoteState>(context, listen: false)
-                        //       .loadVoteList(context);
-                        // });
                       } else {
                         Future.delayed(const Duration(milliseconds: 100), () {
                           Navigator.push(
@@ -70,10 +62,6 @@ class ShowVoteList extends StatelessWidget {
                       }
                     },
                     selected: activeVoteId == vote.voteId ? true : false,
-                    // onTap: () {
-                    //   Provider.of<VoteState>(context, listen: false).activeVote =
-                    //       vote;
-                    // },
                   )),
             ),
         ],

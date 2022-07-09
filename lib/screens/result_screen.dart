@@ -19,11 +19,9 @@ class ResultScreen extends StatelessWidget {
         Provider.of<VoteState>(context, listen: false).activeVote;
     List<String> options = [];
 
-    for (Map<String, int> option in activeVote!.options!) {
-      option.forEach((title, value) {
-        options.add(title);
-      });
-    }
+    activeVote!.options!.forEach((title, value) {
+      options.add(title);
+    });
 
     return Scaffold(
       body: Column(
@@ -109,11 +107,9 @@ class ResultScreen extends StatelessWidget {
 
     List<VoteData> data = <VoteData>[];
 
-    for (var option in activeVote!.options!) {
-      option.forEach((key, value) {
-        data.add(VoteData(option: key, total: value));
-      });
-    }
+    activeVote!.options!.forEach((key, value) {
+      data.add(VoteData(option: key, total: value));
+    });
 
     return [
       charts.Series<VoteData, String>(
@@ -134,7 +130,8 @@ class ResultScreen extends StatelessWidget {
   void retriveActiveVoteData(BuildContext context) {
     final voteId =
         Provider.of<VoteState>(context, listen: false).activeVote?.voteId;
-    retriveMarkedVoteFromFirestore(voteId: voteId, context: context);
+    PollDatabase()
+        .retriveMarkedVoteFromFirestore(voteId: voteId, context: context);
   }
 }
 

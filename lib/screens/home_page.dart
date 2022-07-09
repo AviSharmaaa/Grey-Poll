@@ -53,22 +53,24 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         drawer: const DrawerWidget(),
         backgroundColor: Colors.transparent,
-        body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Padding(
-                padding: EdgeInsets.only(top: 30, left: 15, bottom: 7),
-                child: Text(
-                  'Active Polls',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
+        body: SingleChildScrollView(
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Padding(
+                  padding: EdgeInsets.only(top: 30, left: 15, bottom: 7),
+                  child: Text(
+                    'Active Polls',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              ShowVoteList(),
-            ]),
+                ShowVoteList(),
+              ]),
+        ),
       ),
     );
   }

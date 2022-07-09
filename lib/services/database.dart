@@ -2,9 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-
 import '../models/current_user.dart';
 import '../models/user_model.dart';
 
@@ -20,7 +17,8 @@ class Database {
         'name': user.name,
         'email': user.email,
         'password': user.password,
-        'displayPicture': user.displayPicture,
+        'displayPicture':
+            'https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/JiraiyaNarutomanga.jpg/150px-JiraiyaNarutomanga.jpg',
         'accountCreatedAt': Timestamp.now(),
         'participatedInPoll': [],
       });
@@ -32,11 +30,11 @@ class Database {
     return value;
   }
 
-  Future<UserModel> getUserInfo(BuildContext context, String uid) async {
+  Future<UserModel> getUserInfo(String uid) async {
     UserModel currUser = UserModel();
     List<Map<String, dynamic>> currentUser = [];
-    List<String> pollsParticipated = [];
-    String? error;
+    List<String>? pollsParticipated = [];
+    String error = '';
 
     try {
       DocumentSnapshot snapshot =
@@ -57,8 +55,7 @@ class Database {
       currUser.participatedInPoll = pollsParticipated;
       currUser.email = currentUser[5]['email'];
 
-      Provider.of<CurrentUser>(context, listen: false).setCurrentUser =
-          currUser;
+      CurrentUser().setCurrentUser = currUser;
     } catch (e) {
       error = e.toString();
     }
@@ -72,5 +69,24 @@ class Database {
         .update({
       'participatedInPoll': updatedArray,
     });
+  }
+
+  Future<String> updateUser(String name, String email, String password) async {
+    String response = 'error';
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('usersDB')
+          .doc(currentUser.uid)
+          .update({
+        'name': name,
+        'email': email,
+        'password': password,
+      });
+      response = 'success';
+    } catch (e) {
+      response = 'Something went wrong. Try Again Later!';
+    }
+    return response;
   }
 }

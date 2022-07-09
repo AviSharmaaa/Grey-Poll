@@ -5,47 +5,62 @@ import '../models/vote_model.dart';
 import '../state/vote_state.dart';
 import 'database.dart';
 
-void getVoteListFromFirestore(BuildContext context) async {
-  await FirebaseFirestore.instance.collection('pollsDB').get().then((snapshot) {
-    List<VoteModel> voteList = <VoteModel>[];
-    for (var document in snapshot.docs) {
-      voteList.add(mapFirestoreDocToVote(document));
-    }
-    Provider.of<VoteState>(context, listen: false).voteList = voteList;
-  });
-}
+class PollDatabase {
+  final FirebaseFirestore _firebase = FirebaseFirestore.instance;
 
-VoteModel mapFirestoreDocToVote(DocumentSnapshot document) {
-  VoteModel vote = VoteModel(voteId: document.id);
-  List<Map<String, int>> options = [];
+  void getVoteListFromFirestore(BuildContext context) async {
+    await _firebase.collection('pollsDB').get().then((snapshot) {
+      List<VoteModel> voteList = <VoteModel>[];
 
-  (document.data() as Map<String, dynamic>).forEach((key, value) {
-    if (key == 'title') {
-      vote.voteTitle = value;
-    } else {
-      options.add({key: value});
-    }
-  });
-  vote.options = options;
-  return vote;
-}
+      for (var document in snapshot.docs) {
+        voteList.add(mapFirestoreDocToVote(document));
+      }
 
-void markVote(String voteId, String option, List<String> updatedList) async {
-  await FirebaseFirestore.instance.collection('pollsDB').doc(voteId).update({
-    option: FieldValue.increment(1),
-  });
+      Provider.of<VoteState>(context, listen: false).setVoteList = voteList;
+    });
+  }
 
-  Database().updatePollParticipation(updatedList);
-}
+  VoteModel mapFirestoreDocToVote(DocumentSnapshot document) {
+    VoteModel vote = VoteModel(voteId: document.id);
+    List<Map<String, dynamic>> poll = [];
 
-void retriveMarkedVoteFromFirestore(
-    {String? voteId, BuildContext? context}) async {
-  await FirebaseFirestore.instance
-      .collection('pollsDB')
-      .doc(voteId)
-      .get()
-      .then((value) {
-    Provider.of<VoteState>(context!, listen: false).activeVote =
-        mapFirestoreDocToVote(value);
-  });
+    (document.data() as Map<String, dynamic>).forEach((key, value) {
+      poll.add({key: value});
+    });
+   
+    vote.voteTitle = poll[2]['title'];
+    vote.createdBy = poll[1]['createdBy'];
+    vote.options = poll[0]['Options'];
+
+    return vote;
+  }
+
+  void markVote(VoteModel vote, String option, List<String> updatedList) async {
+    Map<String, dynamic> updatedOptions = vote.options!;
+
+    updatedOptions[option] = updatedOptions[option] + 1;
+    await _firebase.collection('pollsDB').doc(vote.voteId).update({
+      'Options': updatedOptions,
+    });
+
+    Database().updatePollParticipation(updatedList);
+  }
+
+  void retriveMarkedVoteFromFirestore(
+      {String? voteId, BuildContext? context}) async {
+    await _firebase.collection('pollsDB').doc(voteId).get().then((value) {
+      Provider.of<VoteState>(context!, listen: false).activeVote =
+          mapFirestoreDocToVote(value);
+    });
+  }
+
+  void createPoll(String pollTitle, Map<String, dynamic> optionsList,
+      String userId) async {
+    await _firebase.collection('pollsDB').doc().set({
+      'title': pollTitle,
+      'createdBy': userId,
+      'Options': optionsList,
+    });
+  }
+  
 }

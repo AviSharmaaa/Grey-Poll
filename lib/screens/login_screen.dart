@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
       switch (type) {
         case LoginType.email:
           response =
-              await currentUser.loginInWithEmail(context, email!, password!);
+              await currentUser.loginInWithEmail(email!, password!);
           break;
         case LoginType.google:
           response = await currentUser.loginInWithGoogle(context);
@@ -60,9 +60,9 @@ class _LoginScreenState extends State<LoginScreen> {
           (route) => false,
         );
       } else {
-        scaffoldMessenger.showSnackBar(const SnackBar(
-            content: Text('Incorrect Login Info'),
-            duration: Duration(seconds: 2)));
+        scaffoldMessenger.showSnackBar( SnackBar(
+            content: Text(response!),
+            duration: const Duration(seconds: 2)));
       }
     } catch (e) {
       response = e.toString();
@@ -118,6 +118,8 @@ class _LoginScreenState extends State<LoginScreen> {
   //     ),
   //   );
   // }
+  // ignore: todo
+  //TODO: Add show password
 
   @override
   Widget build(BuildContext context) {

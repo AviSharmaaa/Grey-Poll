@@ -6,6 +6,7 @@ import 'package:online_voting_app/utils/app_theme.dart';
 import 'package:provider/provider.dart';
 import '../models/current_user.dart';
 import '../models/user_model.dart';
+import '../screens/create_poll_screen.dart';
 import '../screens/root_screen.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -17,7 +18,7 @@ class DrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     UserModel user =
         Provider.of<CurrentUser>(context, listen: false).getCurrentUser;
-    // final nameFirstLetter = user.name![0];
+    // final nameFirstLetter = user.name![0]
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -58,6 +59,27 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(
+              Icons.poll_outlined,
+              size: 38,
+              color: AppTheme().getSecondaryTextColor,
+            ),
+            title: Text(
+              'Create Poll',
+              style: TextStyle(
+                fontSize: 22,
+                color: AppTheme().getSecondaryTextColor,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CreatePollScreen(),
+                  ));
+            },
+          ),
+          ListTile(
+            leading: Icon(
               Icons.logout_outlined,
               size: 38,
               color: AppTheme().getSecondaryTextColor,
@@ -72,12 +94,6 @@ class DrawerWidget extends StatelessWidget {
             onTap: () async {
               CurrentUser currentUser =
                   Provider.of<CurrentUser>(context, listen: false);
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const RootScreen()),
-                (route) => false,
-              );
-
               String response = await currentUser.signOut();
 
               if (response == "success") {

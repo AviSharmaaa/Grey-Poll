@@ -7,19 +7,20 @@ import '../services/database.dart';
 import 'user_model.dart';
 
 class CurrentUser extends ChangeNotifier {
-  UserModel _currentUser = UserModel();
+  UserModel currentUser = UserModel();
+  UserModel updatedUser = UserModel();
 
-  UserModel get getCurrentUser => _currentUser;
+  UserModel get getCurrentUser => currentUser;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<String> onStartUp(BuildContext context) async {
+  Future<String> onStartUp() async {
     String retVal = "error";
 
     try {
       final User firebaseUser = _auth.currentUser!;
       if (firebaseUser != null) {
-        _currentUser = await Database().getUserInfo(context, firebaseUser.uid);
+        currentUser = await Database().getUserInfo(firebaseUser.uid);
         retVal = 'success';
       }
     } catch (e) {
@@ -33,7 +34,7 @@ class CurrentUser extends ChangeNotifier {
 
     try {
       await _auth.signOut();
-      _currentUser = UserModel();
+      currentUser = UserModel();
       value = "success";
     } catch (e) {
       value = e.toString();
@@ -78,18 +79,14 @@ class CurrentUser extends ChangeNotifier {
     return retVal;
   }
 
-  Future<String> loginInWithEmail(
-      BuildContext context, String email, String password) async {
+  Future<String> loginInWithEmail(String email, String password) async {
     String retVal = "error";
-
     try {
-      UserCredential authResult = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-
-      _currentUser =
-          await Database().getUserInfo(context, authResult.user!.uid);
-
-      if (_currentUser.uid != null) {
+      UserCredential authResult = await _auth.signInWithEmailAndPassword(email: email, password: password);
+    
+      currentUser = await Database().getUserInfo(authResult.user!.uid);
+     
+      if (currentUser.uid != null) {
         retVal = "success";
       }
     } catch (e) {
@@ -131,10 +128,9 @@ class CurrentUser extends ChangeNotifier {
         Database().createUser(user);
       }
 
-      _currentUser =
-          await Database().getUserInfo(context, authResult.user!.uid);
+      currentUser = await Database().getUserInfo(authResult.user!.uid);
 
-      if (_currentUser != null) {
+      if (currentUser != null) {
         retVal = "success";
       }
     } catch (e) {
@@ -144,8 +140,36 @@ class CurrentUser extends ChangeNotifier {
     return retVal;
   }
 
+  Future<String> updateEmail(String email) async {
+    String response = 'error';
+    final User firebaseUser = _auth.currentUser!;
+
+    try {
+      await firebaseUser.updateEmail(email).then((val) {
+        response = 'success';
+      });
+    } catch (e) {
+      response = e.toString();
+    }
+    return response;
+  }
+
+  Future<String> updatePassword(String password) async {
+    String response = 'error';
+    final User firebaseUser = _auth.currentUser!;
+
+    try {
+      await firebaseUser.updatePassword(password).then((value) {
+        response = 'success';
+      });
+    } catch (e) {
+      response = e.toString();
+    }
+    return response;
+  }
+
   set setCurrentUser(value) {
-    _currentUser = value;
+    currentUser = value;
     notifyListeners();
   }
 }

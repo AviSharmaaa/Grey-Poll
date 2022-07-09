@@ -26,8 +26,7 @@ class GreyPoll extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => VoteState()
-        )
-
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
