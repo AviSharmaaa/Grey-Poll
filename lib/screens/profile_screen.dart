@@ -1,11 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:online_voting_app/widgets/snack_bar.dart';
 import 'package:provider/provider.dart';
 import '../models/current_user.dart';
 import '../models/user_model.dart';
 import '../utils/app_theme.dart';
+import '../widgets/snack_bar.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -47,6 +47,7 @@ class ProfileSection extends StatelessWidget {
     return Consumer<CurrentUser>(builder: (context, provider, value) {
       final UserModel user = provider.getCurrentUser;
       final int pollCount = user.participatedInPoll!.length;
+      final int pollCreatedCount = user.pollsCreated!.length;
       final int passwordLength = user.password!.length;
       final String obscureString = '*' * passwordLength;
 
@@ -60,16 +61,34 @@ class ProfileSection extends StatelessWidget {
                 radius: 60.0,
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                children: [
+                  Text(
+                    user.name!,
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    user.email!,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: AppTheme().getTextColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(
-              height: 20,
+              height: 15,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                InfoContainer(
-                    count: (pollCount == 0) ? 0 : pollCount,
-                    title: 'Polls Participated'),
-                const InfoContainer(count: 4, title: 'Polls Created'),
+                InfoContainer(count: pollCount, title: 'Polls Participated'),
+                InfoContainer(count: pollCreatedCount, title: 'Polls Created'),
               ],
             ),
             const SizedBox(

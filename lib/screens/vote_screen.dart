@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/current_user.dart';
 import '../models/user_model.dart';
 import '../models/vote_model.dart';
+import '../services/database.dart';
 import '../services/mock_data.dart';
 import '../state/vote_state.dart';
 import '../utils/app_theme.dart';
@@ -11,6 +12,30 @@ import '../widgets/snack_bar.dart';
 import 'result_screen.dart';
 
 class VoteScreen extends StatelessWidget {
+  bool isOptionSelected(BuildContext context) {
+    if (Provider.of<VoteState>(context, listen: false)
+            .selecetedOption
+            ?.isEmpty ==
+        true) {
+      return false;
+    }
+    return true;
+  }
+
+  void castMyVote(BuildContext context, UserModel currentUser) {
+    final VoteModel vote =
+        Provider.of<VoteState>(context, listen: false).activeVote!;
+
+    final selectedOption =
+        Provider.of<VoteState>(context, listen: false).selecetedOption;
+
+    List<String>? updatedList = currentUser.participatedInPoll;
+    updatedList?.add(vote.voteId!);
+
+    PollDatabase().markVote(vote, selectedOption!);
+    Database().updatePollParticipation(updatedList!);
+  }
+
   const VoteScreen({Key? key}) : super(key: key);
 
   @override
@@ -130,28 +155,5 @@ class VoteScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  bool isOptionSelected(BuildContext context) {
-    if (Provider.of<VoteState>(context, listen: false)
-            .selecetedOption
-            ?.isEmpty ==
-        true) {
-      return false;
-    }
-    return true;
-  }
-
-  void castMyVote(BuildContext context, UserModel currentUser) {
-    final VoteModel vote =
-        Provider.of<VoteState>(context, listen: false).activeVote!;
-
-    final selectedOption =
-        Provider.of<VoteState>(context, listen: false).selecetedOption;
-
-    List<String>? updatedList = currentUser.participatedInPoll;
-    updatedList?.add(vote.voteId!);
-
-    PollDatabase().markVote(vote, selectedOption!, updatedList!);
   }
 }

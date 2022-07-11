@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/vote_model.dart';
 import '../state/vote_state.dart';
-import 'database.dart';
 
 class PollDatabase {
   final FirebaseFirestore _firebase = FirebaseFirestore.instance;
@@ -27,7 +26,7 @@ class PollDatabase {
     (document.data() as Map<String, dynamic>).forEach((key, value) {
       poll.add({key: value});
     });
-   
+
     vote.voteTitle = poll[2]['title'];
     vote.createdBy = poll[1]['createdBy'];
     vote.options = poll[0]['Options'];
@@ -35,7 +34,7 @@ class PollDatabase {
     return vote;
   }
 
-  void markVote(VoteModel vote, String option, List<String> updatedList) async {
+  void markVote(VoteModel vote, String option) async {
     Map<String, dynamic> updatedOptions = vote.options!;
 
     updatedOptions[option] = updatedOptions[option] + 1;
@@ -43,7 +42,6 @@ class PollDatabase {
       'Options': updatedOptions,
     });
 
-    Database().updatePollParticipation(updatedList);
   }
 
   void retriveMarkedVoteFromFirestore(
@@ -54,13 +52,11 @@ class PollDatabase {
     });
   }
 
-  void createPoll(String pollTitle, Map<String, dynamic> optionsList,
-      String userId) async {
-    await _firebase.collection('pollsDB').doc().set({
+  void createPoll(String pollId, String pollTitle, Map<String, dynamic> optionsList, String userId) async {
+    await _firebase.collection('pollsDB').doc(pollId).set({
       'title': pollTitle,
       'createdBy': userId,
       'Options': optionsList,
     });
   }
-  
 }

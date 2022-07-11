@@ -8,6 +8,7 @@ class UserModel {
   String? displayPicture;
   Timestamp? accountCreatedAt;
   List<String>? participatedInPoll;
+  List<String>? pollsCreated;
 
   UserModel({
     this.uid,
@@ -17,5 +18,6 @@ class UserModel {
     this.displayPicture,
     this.accountCreatedAt,
     this.participatedInPoll,
+    this.pollsCreated,
   });
 }

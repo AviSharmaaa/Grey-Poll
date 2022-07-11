@@ -21,6 +21,7 @@ class Database {
             'https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/JiraiyaNarutomanga.jpg/150px-JiraiyaNarutomanga.jpg',
         'accountCreatedAt': Timestamp.now(),
         'participatedInPoll': [],
+        'pollsCreated': [],
       });
       value = "success";
     } catch (e) {
@@ -34,6 +35,7 @@ class Database {
     UserModel currUser = UserModel();
     List<Map<String, dynamic>> currentUser = [];
     List<String>? pollsParticipated = [];
+    List<String>? pollsCreatedList = [];
     String error = '';
 
     try {
@@ -44,6 +46,10 @@ class Database {
         currentUser.add({key: value});
       });
 
+      for (String id in currentUser[5]['pollsCreated']) {
+        pollsCreatedList.add(id);
+      }
+
       for (String id in currentUser[4]['participatedInPoll']) {
         pollsParticipated.add(id);
       }
@@ -53,7 +59,8 @@ class Database {
       currUser.password = currentUser[1]['password'];
       currUser.displayPicture = currentUser[0]['displayPicture'];
       currUser.participatedInPoll = pollsParticipated;
-      currUser.email = currentUser[5]['email'];
+      currUser.pollsCreated = pollsCreatedList;
+      currUser.email = currentUser[6]['email'];
 
       CurrentUser().setCurrentUser = currUser;
     } catch (e) {
@@ -63,11 +70,14 @@ class Database {
   }
 
   void updatePollParticipation(List<String> updatedArray) async {
-    await FirebaseFirestore.instance
-        .collection('usersDB')
-        .doc(currentUser.uid)
-        .update({
+    await _firestore.collection('usersDB').doc(currentUser.uid).update({
       'participatedInPoll': updatedArray,
+    });
+  }
+
+  void updatePollsCreated(List<String> updatedList) async {
+    await _firestore.collection('usersDB').doc(currentUser.uid).update({
+      'pollsCreated': updatedList,
     });
   }
 
@@ -75,7 +85,7 @@ class Database {
     String response = 'error';
 
     try {
-      await FirebaseFirestore.instance
+      await _firestore
           .collection('usersDB')
           .doc(currentUser.uid)
           .update({
@@ -92,7 +102,7 @@ class Database {
     String response = 'error';
 
     try {
-      await FirebaseFirestore.instance
+      await _firestore
           .collection('usersDB')
           .doc(currentUser.uid)
           .update({
@@ -109,7 +119,7 @@ class Database {
     String response = 'error';
 
     try {
-      await FirebaseFirestore.instance
+      await _firestore
           .collection('usersDB')
           .doc(currentUser.uid)
           .update({

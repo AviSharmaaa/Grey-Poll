@@ -8,7 +8,6 @@ import 'user_model.dart';
 
 class CurrentUser extends ChangeNotifier {
   UserModel currentUser = UserModel();
-  UserModel updatedUser = UserModel();
 
   UserModel get getCurrentUser => currentUser;
 
@@ -55,6 +54,7 @@ class CurrentUser extends ChangeNotifier {
       curruser.name = name;
       curruser.password = password;
       curruser.participatedInPoll = [];
+      curruser.pollsCreated = [];
 
       String response = await Database().createUser(curruser);
 
@@ -125,6 +125,7 @@ class CurrentUser extends ChangeNotifier {
         user.name = authResult.user!.displayName;
         user.participatedInPoll = [];
         user.displayPicture = authResult.user!.photoURL;
+        user.pollsCreated = [];
 
         Database().createUser(user);
       }
@@ -139,6 +140,10 @@ class CurrentUser extends ChangeNotifier {
     }
 
     return retVal;
+  }
+
+  void updatePollsCreated(List<String> updatedList) {
+    Database().updatePollsCreated(updatedList);
   }
 
   Future<String> updateName(String name) async {

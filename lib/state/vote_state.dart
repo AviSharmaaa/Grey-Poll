@@ -27,8 +27,9 @@ class VoteState extends ChangeNotifier {
     PollDatabase().getVoteListFromFirestore(context);
   }
 
-  void createPoll(BuildContext context,String pollTitle, Map<String ,dynamic> optionsList, String userId) {
-    PollDatabase().createPoll(pollTitle, optionsList, userId);
+  void createPoll(BuildContext context, String pollId, String pollTitle,
+      Map<String, dynamic> optionsList, String userId) {
+    PollDatabase().createPoll(pollId, pollTitle, optionsList, userId);
     PollDatabase().getVoteListFromFirestore(context);
   }
 

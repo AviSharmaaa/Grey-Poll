@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 import '../models/current_user.dart';
+import '../models/user_model.dart';
 import '../state/vote_state.dart';
 import '../utils/app_theme.dart';
 import '../widgets/header.dart';
@@ -23,12 +25,17 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
 
   void _createNewPoll(
       TextEditingController title, List<TextEditingController> options) async {
-    String? userId =
-        Provider.of<CurrentUser>(context, listen: false).getCurrentUser.uid;
-
+    UserModel user =
+        Provider.of<CurrentUser>(context, listen: false).getCurrentUser;
+    String? userId = user.uid;
+    List<String>? updatedList = user.pollsCreated;
+    Uuid uuid = const Uuid();
+    String pollId = uuid.v4();
     Map<String, dynamic> optionsList = <String, dynamic>{};
-
     String pollTitle = title.text;
+
+    updatedList?.add(pollId);
+
     if (_titleController.text.length >= 6) {
       for (TextEditingController element in options) {
         if (element.text.isNotEmpty) {
@@ -39,7 +46,10 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
       if (optionsList.length < 2) {
         showSnackBar(context, 'Poll must contain at least 2 options');
       } else {
-        VoteState().createPoll(context, pollTitle, optionsList, userId!);
+        VoteState()
+            .createPoll(context, pollId, pollTitle, optionsList, userId!);
+
+        CurrentUser().updatePollsCreated(updatedList!);
       }
     } else {
       showSnackBar(context,
@@ -138,7 +148,8 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
           style: TextButton.styleFrom(
             primary: AppTheme().getCanvasColor,
             backgroundColor: AppTheme().getPrimaryColor,
-            textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            textStyle:
+                const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(50),
@@ -161,7 +172,6 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
   Widget build(BuildContext context) {
     return Consumer<VoteState>(builder: (context, provider, child) {
       return Scaffold(
-        // backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
           child: Column(children: [
             const SizedBox(
