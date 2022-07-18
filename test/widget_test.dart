@@ -11,8 +11,11 @@ import 'package:online_voting_app/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    const bool showHome = false;
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const GreyPoll());
+    await tester.pumpWidget(const GreyPoll(
+      showHome: showHome,
+    ));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
