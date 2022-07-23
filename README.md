@@ -55,3 +55,8 @@ This project is licensed under the MIT License - see the [`LICENSE`](LICENSE) fi
 
 - Twitter: [@avisharma_exe](https://twitter.com/avisharma_exe)
 - Github: [@AviSharmaaa](https://github.com/AviSharmaaa)
+- Medium: [@AviSharma.exe](https://medium.com/@AviSharma.exe)
+
+## 🙏 Support
+
+This project needs a ⭐️ from you. Don't forget to leave a star ⭐️
