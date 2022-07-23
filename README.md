@@ -1,16 +1,57 @@
-# online_voting_app
+## GreyPoll
 
-A new Flutter project.
+A online poll application built using **Flutter Framework** and **Provider Package** for state management. It gives user the choice to submit his vote from the list of ongoing polls. A user can also create a poll with at least 2 options and at most 4 options. GreyPoll also enables the user to change his/her details like name, email ,etc.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Existing **user login**, non-registered users can **create a new account** almost instantly
+- Gives user the choice to **submit his vote** from the list of ongoing polls.
+- For accurate and fair poll results the application follows **One vote per user per poll** rule.
+- Users **can create polls** with a title, a description(optional), and poll options.
+- User is able to **view poll results** instantly.
+- User is able to **view and update** his/her basic information.
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Onboarding Screen
+<img src="assets\screenshots\screenshot1.png" />
+<img src="assets\screenshots\screenshot2.png" />
+<img src="assets\screenshots\screenshot3.png" />
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Login/Signup Screens
+<img src="assets\screenshots\screenshot4.png" />
+<img src="assets\screenshots\screenshot5.png" />
+
+- Home Screen
+<img src="assets\screenshots\screenshot6.png" />
+
+- Create Poll Screen
+<img src="assets\screenshots\screenshot7.png" />
+
+- Selected Poll Screen
+<img src="assets\screenshots\screenshot8.png" />
+
+- Selected Poll Result Screen
+<img src="assets\screenshots\screenshot9.png" />
+
+- Account Screen
+<img src="assets\screenshots\screenshot10.png" />
+
+## 🍰 Contributing
+
+Pull Requests are always welcome!
+If you wish to contribute using Github, you can work on any features or create one on your own. After adding your code, send us a Pull Request.
+
+- Please contribute using [GitHub Flow](https://guides.github.com/introduction/flow). Create a branch, add commits, and [open a pull request](https://github.com/AviSharmaaa/Grey-Poll/compare).
+
+
+## 🛡️ License
+
+This project is licensed under the MIT License - see the [`LICENSE`](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+### 👤 Avi Sharma
+
+- Twitter: [@avisharma_exe](https://twitter.com/avisharma_exe)
+- Github: [@AviSharmaaa](https://github.com/AviSharmaaa)
