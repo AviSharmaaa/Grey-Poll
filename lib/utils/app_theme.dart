@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class AppTheme {
-  final Color kCanvasColor = Colors.white;
-  final Color kTextColor = Colors.grey.shade500;
-  final Color kPrimaryColor = HexColor('#1916A5');
-  final Color kSecondaryColor = HexColor('#110C66');
-  final Color kSecondaryColor2 = HexColor('#4D56B9');
-  final Color kSecondaryTextColor = HexColor('#446282');
-
-  Color get getCanvasColor => kCanvasColor;
-  Color get getTextColor => kTextColor;
-  Color get getPrimaryColor => kPrimaryColor;
-  Color get getSecondaryColor => kSecondaryColor;
-  Color get getSecondaryColor2 => kSecondaryColor2;
-  Color get getSecondaryTextColor => kSecondaryTextColor;
+  final Color kCanvasColor = const Color(0xFFFFFFFF);
+  final Color kTextColor = const Color(0xFF000000);
+  final Color kPrimaryColor = const Color(0xFF7827E6);
+  final Color kSecondaryColor = const Color(0xFF8D39EC);
+  final Color kSecondaryColor2 = const Color(0xFFAA4FF6);
+  final Color kSecondaryTextColor = Colors.grey.shade700;
+  final Color color1 = const Color(0xFFEA80FC);
+  final Color kWhiteText = const Color(0xFFFFFFFF);
 
   ThemeData buildTheme() {
     return ThemeData(
@@ -23,43 +17,52 @@ class AppTheme {
       colorScheme: ThemeData().colorScheme.copyWith(secondary: kSecondaryColor),
       scaffoldBackgroundColor: kCanvasColor,
       secondaryHeaderColor: kSecondaryTextColor,
-      hintColor: kTextColor,
+      hintColor: kSecondaryTextColor,
+      splashColor: Colors.transparent,
+      splashFactory: NoSplash.splashFactory,
+      highlightColor: Colors.transparent,
+      hoverColor: Colors.transparent,
       inputDecorationTheme: InputDecorationTheme(
-        prefixIconColor: kSecondaryTextColor,
+        prefixIconColor: kSecondaryColor,
+        suffixIconColor: kSecondaryColor,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide(
-            color: kTextColor,
+          borderSide: const BorderSide(
+            color: Colors.white,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             width: 3.0,
-            color: Colors.green.shade400,
+            color: Colors.white,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100),
-          borderSide: BorderSide(color: kSecondaryTextColor),
+          borderSide: const BorderSide(color: Colors.white),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100),
-          borderSide: const BorderSide(color: Colors.red, width: 2),
+          borderSide: const BorderSide(color: Colors.red),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100),
-          borderSide: const BorderSide(color: Colors.red, width: 2),
+          borderSide: const BorderSide(color: Colors.white),
         ),
       ),
       buttonTheme: ButtonThemeData(
-        buttonColor: kPrimaryColor,
+        buttonColor: kSecondaryColor,
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         minWidth: 200,
         height: 40.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
         ),
+      ),
+      iconTheme: IconThemeData(
+        color: kSecondaryColor,
       ),
     );
   }

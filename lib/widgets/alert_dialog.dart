@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/result_screen.dart';
+import '../screens/results_screen.dart/result_screen.dart';
 
 
 showAlertDialog(BuildContext context) {
@@ -17,7 +17,7 @@ showAlertDialog(BuildContext context) {
     ),
     onPressed: () {
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const ResultScreen()));
+          MaterialPageRoute(builder: (context) => ResultScreen()));
     },
   );
 

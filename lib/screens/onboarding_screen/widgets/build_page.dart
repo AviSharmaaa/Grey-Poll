@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-Column buildPage(BuildContext context, String imagePath, String title, String content) {
+Column buildPage(
+  BuildContext context,
+  String imagePath,
+  String title,
+  String content,
+  double topPadding,
+) {
   return Column(
     children: [
       SizedBox(
-        width: MediaQuery.of(context).size.width * 0.90,
+        height: MediaQuery.of(context).size.height,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 100),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20.0,
+            vertical: 150.0,
+          ),
           child: Column(
             children: [
               SvgPicture.asset(
@@ -15,7 +24,9 @@ Column buildPage(BuildContext context, String imagePath, String title, String co
                 imagePath,
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10.0),
+                padding: EdgeInsets.only(
+                  top: topPadding,
+                ),
                 child: Text(
                   title,
                   textAlign: TextAlign.center,
@@ -28,7 +39,8 @@ Column buildPage(BuildContext context, String imagePath, String title, String co
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 10.0),
+                  vertical: 10.0,
+                ),
                 child: Text(
                   content,
                   textAlign: TextAlign.center,

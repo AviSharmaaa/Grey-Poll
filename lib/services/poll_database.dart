@@ -7,16 +7,14 @@ import '../state/vote_state.dart';
 class PollDatabase {
   final FirebaseFirestore _firebase = FirebaseFirestore.instance;
 
-  void getVoteListFromFirestore(BuildContext context) async {
+  Future<List<VoteModel>> getVoteListFromFirestore() async {
+    List<VoteModel> voteList = <VoteModel>[];
     await _firebase.collection('pollsDB').get().then((snapshot) {
-      List<VoteModel> voteList = <VoteModel>[];
-
       for (var document in snapshot.docs) {
         voteList.add(mapFirestoreDocToVote(document));
       }
-
-      Provider.of<VoteState>(context, listen: false).setVoteList = voteList;
     });
+    return voteList;
   }
 
   VoteModel mapFirestoreDocToVote(DocumentSnapshot document) {
@@ -27,8 +25,9 @@ class PollDatabase {
       poll.add({key: value});
     });
 
-    vote.voteTitle = poll[2]['title'];
+    vote.voteTitle = poll[3]['title'];
     vote.createdBy = poll[1]['createdBy'];
+    vote.description = poll[2]['description'];
     vote.options = poll[0]['Options'];
 
     return vote;
@@ -41,7 +40,6 @@ class PollDatabase {
     await _firebase.collection('pollsDB').doc(vote.voteId).update({
       'Options': updatedOptions,
     });
-
   }
 
   void retriveMarkedVoteFromFirestore(
@@ -52,11 +50,20 @@ class PollDatabase {
     });
   }
 
-  void createPoll(String pollId, String pollTitle, Map<String, dynamic> optionsList, String userId) async {
-    await _firebase.collection('pollsDB').doc(pollId).set({
-      'title': pollTitle,
-      'createdBy': userId,
-      'Options': optionsList,
-    });
+  Future<String> createPoll(String pollId, String pollTitle, String description,
+      Map<String, dynamic> optionsList, String userId) async {
+    String response = 'error';
+    try {
+      await _firebase.collection('pollsDB').doc(pollId).set({
+        'title': pollTitle,
+        'description': description,
+        'createdBy': userId,
+        'Options': optionsList,
+      });
+      response = 'success';
+    } catch (e) {
+      response = e.toString();
+    }
+    return response;
   }
 }

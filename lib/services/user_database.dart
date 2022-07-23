@@ -1,8 +1,5 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../models/current_user.dart';
 import '../models/user_model.dart';
 
 class Database {
@@ -33,39 +30,34 @@ class Database {
 
   Future<UserModel> getUserInfo(String uid) async {
     UserModel currUser = UserModel();
-    List<Map<String, dynamic>> currentUser = [];
     List<String>? pollsParticipated = [];
     List<String>? pollsCreatedList = [];
-    String error = '';
 
-    try {
-      DocumentSnapshot snapshot =
-          await _firestore.collection("usersDB").doc(uid).get();
+    DocumentSnapshot snapshot =
+        await _firestore.collection("usersDB").doc(uid).get();
 
-      (snapshot.data() as Map<String, dynamic>).forEach((key, value) {
-        currentUser.add({key: value});
-      });
-
-      for (String id in currentUser[5]['pollsCreated']) {
-        pollsCreatedList.add(id);
+    currUser.uid = uid;
+    (snapshot.data() as Map<String, dynamic>).forEach((key, value) {
+      if (key == 'displayPicture') {
+        currUser.displayPicture = value;
+      } else if (key == 'password') {
+        currUser.password = value;
+      } else if (key == 'name') {
+        currUser.name = value;
+      } else if (key == 'participatedInPoll') {
+        for (String id in value) {
+          pollsParticipated.add(id);
+        }
+        currUser.participatedInPoll = pollsParticipated;
+      } else if (key == 'email') {
+        currUser.email = value;
+      } else if (key == 'pollsCreated') {
+        for (String id in value) {
+          pollsCreatedList.add(id);
+        }
+        currUser.pollsCreated = pollsCreatedList;
       }
-
-      for (String id in currentUser[4]['participatedInPoll']) {
-        pollsParticipated.add(id);
-      }
-
-      currUser.uid = uid;
-      currUser.name = currentUser[3]['name'];
-      currUser.password = currentUser[1]['password'];
-      currUser.displayPicture = currentUser[0]['displayPicture'];
-      currUser.participatedInPoll = pollsParticipated;
-      currUser.pollsCreated = pollsCreatedList;
-      currUser.email = currentUser[6]['email'];
-
-      CurrentUser().setCurrentUser = currUser;
-    } catch (e) {
-      error = e.toString();
-    }
+    });
     return currUser;
   }
 
@@ -75,20 +67,25 @@ class Database {
     });
   }
 
-  void updatePollsCreated(List<String> updatedList) async {
-    await _firestore.collection('usersDB').doc(currentUser.uid).update({
-      'pollsCreated': updatedList,
-    });
+  Future<String> updatePollsCreated(List<String> updatedList) async {
+    String response = 'error';
+
+    try {
+      await _firestore.collection('usersDB').doc(currentUser.uid).update({
+        'pollsCreated': updatedList,
+      });
+      response = 'success';
+    } catch (e) {
+      response = e.toString();
+    }
+    return response;
   }
 
   Future<String> updateUserName(String name) async {
     String response = 'error';
 
     try {
-      await _firestore
-          .collection('usersDB')
-          .doc(currentUser.uid)
-          .update({
+      await _firestore.collection('usersDB').doc(currentUser.uid).update({
         'name': name,
       });
       response = 'success';
@@ -102,10 +99,7 @@ class Database {
     String response = 'error';
 
     try {
-      await _firestore
-          .collection('usersDB')
-          .doc(currentUser.uid)
-          .update({
+      await _firestore.collection('usersDB').doc(currentUser.uid).update({
         'password': password,
       });
       response = 'success';
@@ -119,10 +113,7 @@ class Database {
     String response = 'error';
 
     try {
-      await _firestore
-          .collection('usersDB')
-          .doc(currentUser.uid)
-          .update({
+      await _firestore.collection('usersDB').doc(currentUser.uid).update({
         'email': email,
       });
       response = 'success';

@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/state/misc_state.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'models/current_user.dart';
+import 'state/current_user_state.dart';
 import 'screens/onboarding_screen/onboarding_screen.dart';
 import 'screens/root_screen.dart';
 import 'state/vote_state.dart';
@@ -29,7 +30,12 @@ class GreyPoll extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => CurrentUser(),
         ),
-        ChangeNotifierProvider(create: (_) => VoteState()),
+        ChangeNotifierProvider(
+          create: (_) => VoteState(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => MiscState(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

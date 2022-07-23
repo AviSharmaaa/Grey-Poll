@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/app_theme.dart';
 
-TextButton nextButton(PageController controller) {
+Widget nextButton(Key key, PageController controller, AppTheme theme) {
   return TextButton(
+    key: key,
     onPressed: () => controller.nextPage(
-        duration: const Duration(milliseconds: 500), curve: Curves.easeInOut),
-    style: TextButton.styleFrom(
-        backgroundColor: const Color(0xFF00BFA6),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18))),
-    child: const Icon(
-      Icons.chevron_right_sharp,
-      size: 36,
-      color: Colors.white,
+      duration: const Duration(milliseconds: 700),
+      curve: Curves.easeInOut,
     ),
+    style: TextButton.styleFrom(
+      backgroundColor: theme.kSecondaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+      ),
+    ),
+    child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        child: Icon(
+          Icons.arrow_forward_ios_outlined,
+          color: theme.kWhiteText,
+        )),
   );
 }

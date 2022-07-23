@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/screens/main_screen/main_screen.dart';
 import 'package:provider/provider.dart';
-import '../models/current_user.dart';
-import 'home_page.dart';
-import 'login_screen.dart';
+import '../state/current_user_state.dart';
+import 'login_screen/login_screen.dart';
 
 enum AuthStatus {
   notLoggedIn,
@@ -24,7 +24,9 @@ class _RootScreenState extends State<RootScreen> {
     super.didChangeDependencies();
 
     CurrentUser currentUser = Provider.of<CurrentUser>(context, listen: false);
+    
     String val = await currentUser.onStartUp();
+    
     if (val == "success") {
       setState(() {
         _authStatus = AuthStatus.loggedIn;
@@ -37,13 +39,11 @@ class _RootScreenState extends State<RootScreen> {
     Widget response;
     switch (_authStatus) {
       case AuthStatus.loggedIn:
-        response = const HomeScreen();
+        response =  const MainScreen();
         break;
       case AuthStatus.notLoggedIn:
         response = const LoginScreen();
         break;
-
-      // default:
     }
     return response;
   }

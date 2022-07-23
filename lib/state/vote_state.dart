@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import '../models/vote_model.dart';
-import '../services/mock_data.dart';
+import '../services/poll_database.dart';
 
 class VoteState extends ChangeNotifier {
   List<VoteModel> _voteList = [];
   VoteModel? _activeVote;
   String? _selectedOption;
+  bool pollListAvailable = false;
 
   List<TextEditingController> _controllers = [];
   List<TextField> _textFields = [];
@@ -23,14 +24,28 @@ class VoteState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void loadVoteList(BuildContext context) async {
-    PollDatabase().getVoteListFromFirestore(context);
+  void loadVoteList() async {
+    pollListAvailable = false;
+    setVoteList = await PollDatabase().getVoteListFromFirestore();
   }
 
-  void createPoll(BuildContext context, String pollId, String pollTitle,
-      Map<String, dynamic> optionsList, String userId) {
-    PollDatabase().createPoll(pollId, pollTitle, optionsList, userId);
-    PollDatabase().getVoteListFromFirestore(context);
+  Future<String> createPoll(
+    String pollId,
+    String pollTitle,
+    String description,
+    Map<String, dynamic> optionsList,
+    String userId,
+  ) async {
+    String response = 'error';
+    try {
+      response = await PollDatabase()
+          .createPoll(pollId, pollTitle, description, optionsList, userId);
+      setVoteList = await PollDatabase().getVoteListFromFirestore();
+      response = 'success';
+    } catch (e) {
+      response = e.toString();
+    }
+    return response;
   }
 
   void clearState() {
@@ -43,6 +58,7 @@ class VoteState extends ChangeNotifier {
 
   set setVoteList(value) {
     _voteList = value;
+    pollListAvailable = true;
     notifyListeners();
   }
 

@@ -1,10 +1,8 @@
-// ignore_for_file: unnecessary_null_comparison, use_build_context_synchronously
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import '../services/database.dart';
-import 'user_model.dart';
+import '../services/user_database.dart';
+import '../models/user_model.dart';
 
 class CurrentUser extends ChangeNotifier {
   UserModel currentUser = UserModel();
@@ -142,14 +140,18 @@ class CurrentUser extends ChangeNotifier {
     return retVal;
   }
 
-  void updatePollsCreated(List<String> updatedList) {
-    Database().updatePollsCreated(updatedList);
+  Future<String> updatePollsCreated(List<String> updatedList) async {
+    String response = 'error';
+    response = await Database().updatePollsCreated(updatedList);
+    return response;
   }
 
   Future<String> updateName(String name) async {
+    final User firebaseUser = _auth.currentUser!;
     String response = 'error';
     try {
-      await Database().updateUserName(name).then((val) {
+      await Database().updateUserName(name).then((val) async {
+        setCurrentUser = await Database().getUserInfo(firebaseUser.uid);
         response = 'success';
       });
     } catch (e) {
@@ -163,8 +165,11 @@ class CurrentUser extends ChangeNotifier {
     final User firebaseUser = _auth.currentUser!;
 
     try {
-      await firebaseUser.updateEmail(email).then((val) async {
-        response = await Database().updateUserEmail(email);
+      await Database().updateUserEmail(email).then((value) async {
+        await firebaseUser.updateEmail(email).then((value) async {
+          setCurrentUser = await Database().getUserInfo(firebaseUser.uid);
+          response = 'success';
+        });
       });
     } catch (e) {
       response = e.toString();
@@ -177,8 +182,11 @@ class CurrentUser extends ChangeNotifier {
     final User firebaseUser = _auth.currentUser!;
 
     try {
-      await firebaseUser.updatePassword(password).then((value) async {
-        response = await Database().updateUserPassword(password);
+      await Database().updateUserPassword(password).then((value) async {
+        await firebaseUser.updatePassword(password).then((value) async {
+          setCurrentUser = await Database().getUserInfo(firebaseUser.uid);
+          response = 'success';
+        });
       });
     } catch (e) {
       response = e.toString();

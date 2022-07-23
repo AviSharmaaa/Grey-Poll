@@ -17,7 +17,7 @@ class ChooseAvatar extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
               border: Border.all(
                   width: 5,
-                  color: AppTheme().getPrimaryColor),
+                  color: AppTheme().kPrimaryColor),
               color: Colors.white,
               boxShadow: const [
                 BoxShadow(
@@ -38,7 +38,7 @@ class ChooseAvatar extends StatelessWidget {
                 const EdgeInsets.fromLTRB(80, 80, 0, 0),
             child: Icon(
               Icons.add_circle,
-              color: AppTheme().getPrimaryColor,
+              color: AppTheme().kPrimaryColor,
               size: 25.0,
             ),
           ),
