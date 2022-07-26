@@ -2,7 +2,6 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import '../../../state/current_user_state.dart';
 import '../../../utils/app_theme.dart';
-import '../../../widgets/snack_bar.dart';
 
 class DetailsContainer extends StatefulWidget {
   final GlobalKey<FormState> formKey;
@@ -73,10 +72,6 @@ class _DetailsContainerState extends State<DetailsContainer> {
 
   @override
   Widget build(BuildContext context) {
-    void justToAvoidAsyncWarning(String response) {
-      showSnackBar(context, response);
-    }
-
     Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -114,6 +109,7 @@ class _DetailsContainerState extends State<DetailsContainer> {
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: InkWell(
                     onTap: () async {
+                      final scaffoldMessager = ScaffoldMessenger.of(context);
                       if (widget.formKey.currentState!.validate()) {
                         String response = '';
                         if (widget.fieldName == 'Full Name') {
@@ -123,7 +119,8 @@ class _DetailsContainerState extends State<DetailsContainer> {
                         } else {
                           response = await updatePassword();
                         }
-                        justToAvoidAsyncWarning(response);
+                        scaffoldMessager
+                            .showSnackBar(SnackBar(content: Text(response)));
                       }
                     },
                     child: ClayContainer(
