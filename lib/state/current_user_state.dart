@@ -15,7 +15,7 @@ class CurrentUser extends ChangeNotifier {
     String retVal = "error";
 
     try {
-      final User firebaseUser = _auth.currentUser!;
+      final firebaseUser = _auth.currentUser;
       if (firebaseUser != null) {
         currentUser = await Database().getUserInfo(firebaseUser.uid);
         retVal = 'success';
@@ -129,10 +129,7 @@ class CurrentUser extends ChangeNotifier {
       }
 
       currentUser = await Database().getUserInfo(authResult.user!.uid);
-
-      if (currentUser != null) {
-        retVal = "success";
-      }
+      retVal = "success";
     } catch (e) {
       retVal = e.toString();
     }
