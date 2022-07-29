@@ -37,6 +37,8 @@ A online poll application built using **Flutter Framework** and **Provider Packa
 - Account Screen
 <img src="assets\screenshots\screenshot10.png" />
 
+<b> Will be introducing new features and improving overall app experience during weekends <b/>
+
 ## 🍰 Contributing
 
 Pull Requests are always welcome!
