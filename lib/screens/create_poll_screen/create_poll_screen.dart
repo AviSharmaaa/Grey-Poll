@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:online_voting_app/utils/app_theme.dart';
 import 'package:provider/provider.dart';
-import '../../state/vote_state.dart';
+import '../../state/poll_state.dart';
 import 'widgets/poll_form.dart';
 
 class CreatePollScreen extends StatelessWidget {
@@ -12,7 +12,7 @@ class CreatePollScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<VoteState>(builder: (context, provider, child) {
+    return Consumer<PollState>(builder: (context, provider, child) {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Create a Poll'),

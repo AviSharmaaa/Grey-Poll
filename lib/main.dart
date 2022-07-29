@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'state/current_user_state.dart';
 import 'screens/onboarding_screen/onboarding_screen.dart';
 import 'screens/root_screen.dart';
-import 'state/vote_state.dart';
+import 'state/poll_state.dart';
 import 'utils/app_theme.dart';
 
 Future main() async {
@@ -31,7 +31,7 @@ class GreyPoll extends StatelessWidget {
           create: (context) => CurrentUser(),
         ),
         ChangeNotifierProvider(
-          create: (_) => VoteState(),
+          create: (_) => PollState(),
         ),
         ChangeNotifierProvider(
           create: (_) => MiscState(),

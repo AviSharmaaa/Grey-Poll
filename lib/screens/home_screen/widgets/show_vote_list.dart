@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../models/vote_model.dart';
-import '../../../state/vote_state.dart';
+import '../../../models/poll_model.dart';
+import '../../../state/poll_state.dart';
 import 'poll_card.dart';
 
 class ShowVoteList extends StatelessWidget {
@@ -9,13 +9,15 @@ class ShowVoteList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<VoteState>(
+    return Consumer<PollState>(
       builder: (context, provider, child) {
         return Visibility(
           visible: provider.pollListAvailable,
-          replacement: const Center(child: CircularProgressIndicator(),),
+          replacement: const Center(
+            child: CircularProgressIndicator(),
+          ),
           child: ListView.builder(
-            itemCount: provider.voteList.length + 1,
+            itemCount: provider.activePollList.length + 1,
             itemBuilder: (context, index) {
               if (index == 0) {
                 return const Padding(
@@ -28,10 +30,11 @@ class ShowVoteList extends StatelessWidget {
                   ),
                 );
               }
-              VoteModel vote = provider.voteList[index - 1];
+              PollModel poll = provider.activePollList[index - 1];
+              print(poll.pollId);
               return PollCard(
                 provider: provider,
-                vote: vote,
+                poll: poll,
                 index: index,
               );
             },

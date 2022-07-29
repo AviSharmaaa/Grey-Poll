@@ -10,16 +10,18 @@ class Database {
     String value = "error";
 
     try {
-      await _firestore.collection("usersDB").doc(user.uid).set({
-        'name': user.name,
-        'email': user.email,
-        'password': user.password,
-        'displayPicture':
-            'https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/JiraiyaNarutomanga.jpg/150px-JiraiyaNarutomanga.jpg',
-        'accountCreatedAt': Timestamp.now(),
-        'participatedInPoll': [],
-        'pollsCreated': [],
-      });
+      final userRef = _firestore.collection('usersDB').doc(user.uid);
+      final newUser = UserModel(
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        accountCreatedAt: user.accountCreatedAt,
+        participatedInPoll: user.participatedInPoll,
+        pollsCreated: user.pollsCreated,
+      );
+      final userJson = newUser.toJson();
+
+      await userRef.set(userJson);
       value = "success";
     } catch (e) {
       value = e.toString();
@@ -33,31 +35,31 @@ class Database {
     List<String>? pollsParticipated = [];
     List<String>? pollsCreatedList = [];
 
-    DocumentSnapshot snapshot =
-        await _firestore.collection("usersDB").doc(uid).get();
+    try {
+      DocumentSnapshot snapshot =
+          await _firestore.collection("usersDB").doc(uid).get();
 
-    currUser.uid = uid;
-    (snapshot.data() as Map<String, dynamic>).forEach((key, value) {
-      if (key == 'displayPicture') {
-        currUser.displayPicture = value;
-      } else if (key == 'password') {
-        currUser.password = value;
-      } else if (key == 'name') {
-        currUser.name = value;
-      } else if (key == 'participatedInPoll') {
-        for (String id in value) {
-          pollsParticipated.add(id);
-        }
-        currUser.participatedInPoll = pollsParticipated;
-      } else if (key == 'email') {
-        currUser.email = value;
-      } else if (key == 'pollsCreated') {
-        for (String id in value) {
-          pollsCreatedList.add(id);
-        }
-        currUser.pollsCreated = pollsCreatedList;
+      dynamic data = snapshot.data();
+
+      for (String id in data['participatedInPoll']) {
+        pollsParticipated.add(id);
       }
-    });
+
+      for (String id in data['pollsCreated']) {
+        pollsCreatedList.add(id);
+      }
+
+      currUser.uid = uid;
+      currUser.name = data['name'];
+      currUser.password = data['password'];
+      currUser.email = data['email'];
+      currUser.accountCreatedAt = data['accountCreatedAt'];
+      currUser.participatedInPoll = pollsParticipated;
+      currUser.pollsCreated = pollsCreatedList;
+    } catch (e) {
+      rethrow;
+    }
+
     return currUser;
   }
 

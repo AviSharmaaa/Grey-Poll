@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -51,6 +52,7 @@ class CurrentUser extends ChangeNotifier {
       curruser.email = authResult.user!.email;
       curruser.name = name;
       curruser.password = password;
+      curruser.accountCreatedAt = Timestamp.now();
       curruser.participatedInPoll = [];
       curruser.pollsCreated = [];
 
@@ -122,7 +124,6 @@ class CurrentUser extends ChangeNotifier {
         user.email = authResult.user!.email;
         user.name = authResult.user!.displayName;
         user.participatedInPoll = [];
-        user.displayPicture = authResult.user!.photoURL;
         user.pollsCreated = [];
 
         Database().createUser(user);

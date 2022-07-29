@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:online_voting_app/utils/app_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import '../../../models/vote_model.dart';
+import '../../../models/poll_model.dart';
 import '../../../services/poll_database.dart';
-import '../../../state/vote_state.dart';
+import '../../../state/poll_state.dart';
 import 'background_design.dart';
 import 'poll_info.dart';
 
@@ -25,11 +25,11 @@ class Body extends StatelessWidget {
     required this.activeVote,
   }) : super(key: key);
 
-  final VoteModel? activeVote;
+  final PollModel? activeVote;
   final AppTheme theme = AppTheme();
 
   Widget createChart(BuildContext context) {
-    return Consumer<VoteState>(
+    return Consumer<PollState>(
       builder: (context, value, child) {
         return charts.BarChart(
           retriveVoteResult(context),
@@ -42,10 +42,10 @@ class Body extends StatelessWidget {
   List<charts.Series<VoteData, String>> retriveVoteResult(
     BuildContext context,
   ) {
-    VoteModel? activeVote = Provider.of<VoteState>(
+    PollModel? activeVote = Provider.of<PollState>(
       context,
       listen: false,
-    ).activeVote;
+    ).activepoll;
 
     List<VoteData> data = <VoteData>[];
 
@@ -70,12 +70,12 @@ class Body extends StatelessWidget {
   }
 
   void retriveActiveVoteData(BuildContext context) {
-    final voteId = Provider.of<VoteState>(
+    final voteId = Provider.of<PollState>(
       context,
       listen: false,
-    ).activeVote?.voteId;
-    PollDatabase().retriveMarkedVoteFromFirestore(
-      voteId: voteId,
+    ).activepoll?.pollId;
+    PollDatabase().retriveMarkedPollFromFirestore(
+      pollId: voteId,
       context: context,
     );
   }

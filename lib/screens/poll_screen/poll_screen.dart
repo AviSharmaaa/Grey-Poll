@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../state/current_user_state.dart';
 import '../../models/user_model.dart';
-import '../../models/vote_model.dart';
+import '../../models/poll_model.dart';
 import '../../services/user_database.dart';
 import '../../services/poll_database.dart';
-import '../../state/vote_state.dart';
+import '../../state/poll_state.dart';
 import '../../utils/app_theme.dart';
 import '../../widgets/snack_bar.dart';
 import '../results_screen.dart/result_screen.dart';
 import 'widgets/display_poll_details.dart';
 
-class VoteScreen extends StatelessWidget {
+class PollScreen extends StatelessWidget {
   final AppTheme theme = AppTheme();
 
   bool isOptionSelected(BuildContext context) {
-    if (Provider.of<VoteState>(context, listen: false)
+    if (Provider.of<PollState>(context, listen: false)
             .selecetedOption
             ?.isEmpty ==
         true) {
@@ -25,24 +25,24 @@ class VoteScreen extends StatelessWidget {
   }
 
   void castMyVote(BuildContext context, UserModel currentUser) {
-    final VoteModel vote =
-        Provider.of<VoteState>(context, listen: false).activeVote!;
+    final PollModel vote =
+        Provider.of<PollState>(context, listen: false).activepoll!;
 
     final selectedOption =
-        Provider.of<VoteState>(context, listen: false).selecetedOption;
+        Provider.of<PollState>(context, listen: false).selecetedOption;
 
     List<String>? updatedList = currentUser.participatedInPoll;
-    updatedList?.add(vote.voteId!);
+    updatedList?.add(vote.pollId!);
 
-    PollDatabase().markVote(vote, selectedOption!);
+    PollDatabase().markPoll(vote, selectedOption!);
     Database().updatePollParticipation(updatedList!);
   }
 
-  VoteScreen({Key? key}) : super(key: key);
+  PollScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    VoteModel? activeVote = Provider.of<VoteState>(context).activeVote;
+    PollModel? activeVote = Provider.of<PollState>(context).activepoll;
 
     UserModel currentUser =
         Provider.of<CurrentUser>(context, listen: false).getCurrentUser;

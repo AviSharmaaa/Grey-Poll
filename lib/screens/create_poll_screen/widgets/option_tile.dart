@@ -2,7 +2,7 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:online_voting_app/utils/app_theme.dart';
 import 'package:provider/provider.dart';
-import '../../../state/vote_state.dart';
+import '../../../state/poll_state.dart';
 
 Widget optionTile(
   BuildContext context,
@@ -10,7 +10,7 @@ Widget optionTile(
   List<TextField> textFields,
   AppTheme theme,
 ) {
-  VoteState provider = Provider.of<VoteState>(
+  PollState provider = Provider.of<PollState>(
     context,
     listen: false,
   );

@@ -5,7 +5,7 @@ import 'package:uuid/uuid.dart';
 import '../../../state/current_user_state.dart';
 import '../../../models/user_model.dart';
 import '../../../state/misc_state.dart';
-import '../../../state/vote_state.dart';
+import '../../../state/poll_state.dart';
 import '../../../utils/app_theme.dart';
 import '../../../widgets/snack_bar.dart';
 import 'list_view.dart';
@@ -23,16 +23,16 @@ class _PollFormState extends State<PollForm> {
   final TextEditingController _descriptionController = TextEditingController();
 
   final List<TextEditingController> _controllers =
-      VoteState().getTextEditingController;
+      PollState().getTextEditingController;
 
-  final List<TextField> _textFields = VoteState().getTextField;
+  final List<TextField> _textFields = PollState().getTextField;
 
   int buttonDepth = -40;
   final AppTheme theme = AppTheme();
 
   void validateAndSubmit() async {
     MiscState miscProvider = Provider.of<MiscState>(context, listen: false);
-    VoteState voteProvider = Provider.of<VoteState>(context, listen: false);
+    PollState pollProvider = Provider.of<PollState>(context, listen: false);
 
     if (isValidPollFormat()) {
       String response = await _createNewPoll(
@@ -42,7 +42,7 @@ class _PollFormState extends State<PollForm> {
       );
 
       if (response == 'success') {
-        voteProvider.loadVoteList();
+        pollProvider.loadPollList();
         miscProvider.setCurrentIndex = 0;
       }
     } else {
@@ -82,7 +82,7 @@ class _PollFormState extends State<PollForm> {
         showSnackBar(context, 'Poll must contain at least 2 options');
         response = 'error';
       } else {
-        response = await VoteState().createPoll(
+        response = await PollState().createPoll(
           pollId,
           pollTitle,
           pollDescription,

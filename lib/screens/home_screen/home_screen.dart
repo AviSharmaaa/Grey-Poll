@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../state/vote_state.dart';
+import '../../state/poll_state.dart';
 import '../../utils/app_theme.dart';
 import 'widgets/show_vote_list.dart';
 import 'widgets/background_design.dart';
@@ -19,8 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     Future.microtask(() {
-      Provider.of<VoteState>(context, listen: false).clearState();
-      Provider.of<VoteState>(context, listen: false).loadVoteList();
+      Provider.of<PollState>(context, listen: false).clearState();
+      Provider.of<PollState>(context, listen: false).loadPollList();
     });
   }
 

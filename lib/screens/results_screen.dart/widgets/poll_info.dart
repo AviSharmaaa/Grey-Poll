@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/vote_model.dart';
+import '../../../models/poll_model.dart';
 
 class PollInfo extends StatelessWidget {
   const PollInfo({
@@ -9,7 +9,7 @@ class PollInfo extends StatelessWidget {
   }) : super(key: key);
 
   final Size size;
-  final VoteModel? activeVote;
+  final PollModel? activeVote;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class PollInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            activeVote!.voteTitle!,
+            activeVote!.pollTitle!,
             style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900),
           ),
           const SizedBox(

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../state/current_user_state.dart';
 import '../../../models/user_model.dart';
-import '../../../models/vote_model.dart';
-import '../../../state/vote_state.dart';
+import '../../../models/poll_model.dart';
+import '../../../state/poll_state.dart';
 import '../../../utils/app_theme.dart';
 import '../../../widgets/alert_dialog.dart';
 import '../../poll_screen/poll_screen.dart';
@@ -12,61 +12,63 @@ class PollCard extends StatelessWidget {
   PollCard({
     Key? key,
     required this.provider,
-    required this.vote,
+    required this.poll,
     required this.index,
   }) : super(key: key);
 
-  final VoteState provider;
-  final VoteModel vote;
+  final PollState provider;
+  final PollModel poll;
   final int index;
   final AppTheme theme = AppTheme();
+  
 
   @override
   Widget build(BuildContext context) {
+    print(poll.pollId);
     UserModel currentUser = Provider.of<CurrentUser>(
       context,
       listen: false,
     ).getCurrentUser;
-    String activeVoteId = provider.activeVote?.voteId ?? '';
+    String activepollId = provider.activepoll?.pollId ?? '';
 
-    bool checkIfAlreadyVoted(voteId) {
-      return (currentUser.participatedInPoll!.contains(voteId));
+    bool checkIfAlreadypolld(pollId) {
+      return (currentUser.participatedInPoll!.contains(pollId));
     }
 
-    int calculateTotalVotes(VoteModel vote) {
-      int totalVotes = 0;
-      vote.options!.forEach((key, value) {
-        totalVotes += value as int;
+    int calculateTotalpolls(PollModel poll) {
+      int totalpolls = 0;
+      poll.options!.forEach((key, value) {
+        totalpolls += value as int;
       });
-      return totalVotes;
+      return totalpolls;
     }
 
-    int totalVotes = calculateTotalVotes(vote);
-    String voteTitle = (vote.voteTitle!.length > 20)
-        ? '${vote.voteTitle!.substring(0, 10)}...'
-        : vote.voteTitle!;
-    String description = (vote.description!.length >= 74)
-        ? '${vote.description!.substring(0, 74)}...'
-        : vote.description!;
+    int totalpolls = calculateTotalpolls(poll);
+    String pollTitle = (poll.pollTitle!.length > 20)
+        ? '${poll.pollTitle!.substring(0, 10)}...'
+        : poll.pollTitle!;
+    String description = (poll.description!.length >= 74)
+        ? '${poll.description!.substring(0, 74)}...'
+        : poll.description!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 18.0),
       child: InkWell(
         onTap: () {
-          provider.activeVote = vote;
+          provider.activepoll = poll;
           
-          if (checkIfAlreadyVoted(provider.activeVote!.voteId)) {
+          if (checkIfAlreadypolld(provider.activepoll!.pollId)) {
             showAlertDialog(context);
           } else {
             Future.delayed(const Duration(milliseconds: 600), () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => VoteScreen()));
+                  MaterialPageRoute(builder: (context) => PollScreen()));
             });
           }
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           decoration: BoxDecoration(
-            color: activeVoteId == vote.voteId ? theme.kCanvasColor : Colors.grey.shade200,
+            color: activepollId == poll.pollId ? theme.kCanvasColor : Colors.grey.shade200,
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
@@ -86,16 +88,16 @@ class PollCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      voteTitle,
+                      pollTitle,
                       style: TextStyle(
                         fontSize: 25,
-                        fontWeight: activeVoteId == vote.voteId
+                        fontWeight: activepollId == poll.pollId
                             ? FontWeight.w900
                             : FontWeight.w700,
                       ),
                     ),
                     Text(
-                      'Votes: $totalVotes',
+                      'votes: $totalpolls',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../state/vote_state.dart';
+import '../../../state/poll_state.dart';
 import '../../../utils/app_theme.dart';
 
 class DisplayOptions extends StatelessWidget {
@@ -10,7 +10,7 @@ class DisplayOptions extends StatelessWidget {
     required this.option,
   }) : super(key: key);
 
-  final VoteState provider;
+  final PollState provider;
   final String option;
 
   @override

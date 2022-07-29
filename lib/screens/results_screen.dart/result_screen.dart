@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../models/vote_model.dart';
-import '../../state/vote_state.dart';
+import '../../models/poll_model.dart';
+import '../../state/poll_state.dart';
 import '../../utils/app_theme.dart';
 import '../main_screen/main_screen.dart';
 import 'widgets/body.dart';
@@ -12,10 +12,10 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    VoteModel? activeVote = Provider.of<VoteState>(
+    PollModel? activeVote = Provider.of<PollState>(
       context,
       listen: false,
-    ).activeVote;
+    ).activepoll;
 
     List<String> options = [];
 
