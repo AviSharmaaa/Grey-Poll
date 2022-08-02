@@ -7,7 +7,6 @@ import '../../../models/user_model.dart';
 import '../../../state/misc_state.dart';
 import '../../../state/poll_state.dart';
 import '../../../utils/app_theme.dart';
-import '../../../widgets/snack_bar.dart';
 import 'list_view.dart';
 import 'option_tile.dart';
 
@@ -30,7 +29,7 @@ class _PollFormState extends State<PollForm> {
   int buttonDepth = -40;
   final AppTheme theme = AppTheme();
 
-  void validateAndSubmit() async {
+  void validateAndSubmit(ScaffoldMessengerState scaffoldMessenger) async {
     MiscState miscProvider = Provider.of<MiscState>(context, listen: false);
     PollState pollProvider = Provider.of<PollState>(context, listen: false);
 
@@ -39,6 +38,7 @@ class _PollFormState extends State<PollForm> {
         _titleController,
         _descriptionController,
         _controllers,
+        scaffoldMessenger,
       );
 
       if (response == 'success') {
@@ -46,7 +46,11 @@ class _PollFormState extends State<PollForm> {
         miscProvider.setCurrentIndex = 0;
       }
     } else {
-      showSnackBar(context, 'At least 2 options are required');
+      scaffoldMessenger.showSnackBar(
+        const SnackBar(
+          content: Text("At least 2 options are required"),
+        ),
+      );
     }
   }
 
@@ -54,6 +58,7 @@ class _PollFormState extends State<PollForm> {
     TextEditingController title,
     TextEditingController description,
     List<TextEditingController> options,
+    ScaffoldMessengerState scaffoldMessenger,
   ) async {
     UserModel user = Provider.of<CurrentUser>(
       context,
@@ -79,7 +84,11 @@ class _PollFormState extends State<PollForm> {
       }
 
       if (optionsList.length < 2) {
-        showSnackBar(context, 'Poll must contain at least 2 options');
+        scaffoldMessenger.showSnackBar(
+          const SnackBar(
+            content: Text("Poll must contain at least 2 options"),
+          ),
+        );
         response = 'error';
       } else {
         response = await PollState().createPoll(
@@ -92,9 +101,12 @@ class _PollFormState extends State<PollForm> {
         response = await CurrentUser().updatePollsCreated(updatedList!);
       }
     } else {
-      showSnackBar(
-        context,
-        'Title length must be greater than or equal to 6 characters.',
+      scaffoldMessenger.showSnackBar(
+        const SnackBar(
+          content: Text(
+            "Title length must be greater than or equal to 6 characters.",
+          ),
+        ),
       );
       response = 'error';
     }
@@ -134,10 +146,11 @@ class _PollFormState extends State<PollForm> {
             });
           },
           onTapUp: (val) {
+            final scaffoldMessenger = ScaffoldMessenger.of(context);
             setState(() {
               buttonDepth = -buttonDepth;
             });
-            validateAndSubmit();
+            validateAndSubmit(scaffoldMessenger);
           },
           child: Text(
             "Create Poll",

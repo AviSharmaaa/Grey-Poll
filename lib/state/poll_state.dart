@@ -5,7 +5,7 @@ import '../services/poll_database.dart';
 class PollState extends ChangeNotifier {
   List<PollModel> _pollList = [];
   List<PollModel> _activePollList = [];
-  List<PollModel> _pollsByCurrentUserList = [];
+  List<PollModel> _pollsCreatedByUser = [];
   PollModel? _activepoll;
   String? _selectedOption;
   bool pollListAvailable = false;
@@ -39,13 +39,27 @@ class PollState extends ChangeNotifier {
   }
 
   void loadPollsCreatedByUser(String uid) {
+    _pollsCreatedByUser = [];
     for (PollModel poll in _pollList) {
       if (poll.createdBy == uid) {
-        _pollsByCurrentUserList.add(poll);
+        _pollsCreatedByUser.add(poll);
       }
     }
 
-    setPollsCreatedByUsersList = _pollsByCurrentUserList;
+    setPollsCreatedByUserList = _pollsCreatedByUser;
+  }
+
+  Future<String> disablePoll(String pollId) async {
+    String response = "error";
+    try {
+      response = await PollDatabase().disablePoll(pollId);
+      if (response == "success") {
+        loadPollList();
+      }
+    } catch (e) {
+      response = "Error!! Try Again Later";
+    }
+    return response;
   }
 
   Future<String> createPoll(
@@ -75,6 +89,7 @@ class PollState extends ChangeNotifier {
 
   List<PollModel> get pollList => _pollList;
   List<PollModel> get activePollList => _activePollList;
+  List<PollModel> get pollsCreatedByUser => _pollsCreatedByUser;
 
   set setActivePollList(value) {
     _activePollList = value;
@@ -82,9 +97,9 @@ class PollState extends ChangeNotifier {
     notifyListeners();
   }
 
-  set setPollsCreatedByUsersList(value) {
-    _pollsByCurrentUserList = value;
-    notifyListeners();
+  set setPollsCreatedByUserList(value) {
+    _pollsCreatedByUser = value;
+    // notifyListeners();
   }
 
   // set setpollList(value) {

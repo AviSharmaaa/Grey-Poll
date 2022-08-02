@@ -5,12 +5,12 @@ import '../models/poll_model.dart';
 import '../state/poll_state.dart';
 
 class PollDatabase {
-  final FirebaseFirestore _firebase = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<List<PollModel>> getPollListFromFirestore() async {
     List<PollModel> pollList = <PollModel>[];
     try {
-      await _firebase.collection('pollsDB').get().then((snapshot) {
+      await _firestore.collection('pollsDB').get().then((snapshot) {
         for (var document in snapshot.docs) {
           pollList.add(mapFirestoreDocTopoll(document));
         }
@@ -41,7 +41,7 @@ class PollDatabase {
     Map<String, dynamic> updatedOptions = poll.options!;
 
     updatedOptions[option] = updatedOptions[option] + 1;
-    await _firebase.collection('pollsDB').doc(poll.pollId).update({
+    await _firestore.collection('pollsDB').doc(poll.pollId).update({
       'Options': updatedOptions,
     });
   }
@@ -50,7 +50,7 @@ class PollDatabase {
     String? pollId,
     BuildContext? context,
   }) async {
-    await _firebase.collection('pollsDB').doc(pollId).get().then((value) {
+    await _firestore.collection('pollsDB').doc(pollId).get().then((value) {
       Provider.of<PollState>(context!, listen: false).activepoll =
           mapFirestoreDocTopoll(value);
     });
@@ -65,7 +65,7 @@ class PollDatabase {
   ) async {
     String response = 'error';
     try {
-      final pollRef = _firebase.collection('pollsDB').doc(pollId);
+      final pollRef = _firestore.collection('pollsDB').doc(pollId);
       final newPoll = PollModel(
         pollTitle: pollTitle,
         description: description,
@@ -79,6 +79,20 @@ class PollDatabase {
       response = 'success';
     } catch (e) {
       response = e.toString();
+    }
+    return response;
+  }
+
+  Future<String> disablePoll(String pollId) async {
+    String response = "error";
+
+    try {
+      await _firestore.collection("pollsDB").doc(pollId).update({
+        'isActive': false,
+      });
+      response = "success";
+    } catch (e) {
+      response = "error";
     }
     return response;
   }

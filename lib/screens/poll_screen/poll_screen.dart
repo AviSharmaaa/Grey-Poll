@@ -7,7 +7,6 @@ import '../../services/user_database.dart';
 import '../../services/poll_database.dart';
 import '../../state/poll_state.dart';
 import '../../utils/app_theme.dart';
-import '../../widgets/snack_bar.dart';
 import '../results_screen.dart/result_screen.dart';
 import 'widgets/display_poll_details.dart';
 
@@ -75,12 +74,19 @@ class PollScreen extends StatelessWidget {
             ),
           ),
           onPressed: () {
+            final scaffoldMessenger = ScaffoldMessenger.of(context);
             if (isOptionSelected(context)) {
               castMyVote(context, currentUser);
               Navigator.push(context,
                   MaterialPageRoute(builder: ((context) => ResultScreen())));
             } else {
-              showSnackBar(context, 'Please selecte an option and Try Again!!');
+              scaffoldMessenger.showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    "Please selecte an option and Try Again!!",
+                  ),
+                ),
+              );
             }
           }),
       body: SingleChildScrollView(

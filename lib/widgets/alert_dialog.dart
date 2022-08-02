@@ -1,40 +1,33 @@
 import 'package:flutter/material.dart';
-import '../screens/results_screen.dart/result_screen.dart';
 
-
-showAlertDialog(BuildContext context) {
-  Widget cancelButton = TextButton(
-    child: const Text("Cancel"),
-    onPressed: () {
-      Navigator.pop(context);
-    },
-  );
-
-  Widget continueButton = TextButton(
-    child: const Text(
-      "See Results",
-      style: TextStyle(color: Colors.blue),
-    ),
-    onPressed: () {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => ResultScreen()));
-    },
-  );
-
-  AlertDialog alert = AlertDialog(
-    title: const Text("See Results"),
-    content: const Text(
-        "You have already participated in this poll. Would you like to see the results instead?"),
+Widget customAlertDialog(BuildContext context, String title, String message,
+    bool doesDisablePoll, Widget screen) {
+  return AlertDialog(
+    title: Text(title),
+    content: Text(message),
     actions: [
-      cancelButton,
-      continueButton,
+      TextButton(
+        child: const Text("Cancel"),
+        onPressed: () {
+          Navigator.pop(context, false);
+        },
+      ),
+      TextButton(
+        child: const Text(
+          "OK",
+          style: TextStyle(color: Colors.blue),
+        ),
+        onPressed: () {
+          (doesDisablePoll == true)
+              ? Navigator.pop(context, true)
+              : Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => screen,
+                  ),
+                );
+        },
+      )
     ],
-  );
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
   );
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../state/poll_state.dart';
 import '../../utils/app_theme.dart';
-import 'widgets/show_vote_list.dart';
+import 'widgets/show_poll_list.dart';
 import 'widgets/background_design.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Stack(
             children: [
               BackgroundDesign(),
-              const ShowVoteList(),
+              ShowPollList(),
             ],
           ),
     );

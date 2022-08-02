@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/screens/poll_activity/poll_activity_screen.dart';
+import 'package:online_voting_app/state/poll_state.dart';
 import 'package:provider/provider.dart';
 import '../../../state/current_user_state.dart';
 import '../../../models/user_model.dart';
@@ -36,6 +38,7 @@ class _ProfileSectionState extends State<ProfileSection> {
 
   @override
   Widget build(BuildContext context) {
+    PollState pollProvider = Provider.of<PollState>(context, listen: false);
     return Consumer<CurrentUser>(builder: (context, provider, value) {
       final UserModel user = provider.getCurrentUser;
       final int pollCount = (user.participatedInPoll != null)
@@ -45,6 +48,8 @@ class _ProfileSectionState extends State<ProfileSection> {
           (user.pollsCreated != null) ? user.pollsCreated!.length : 0;
       final int passwordLength = user.password!.length;
       final String obscureString = '*' * passwordLength;
+
+      final String uid = user.uid!;
 
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
@@ -57,8 +62,39 @@ class _ProfileSectionState extends State<ProfileSection> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                InfoContainer(count: pollCount, title: 'Polls Participated'),
-                InfoContainer(count: pollCreatedCount, title: 'Polls Created'),
+                InkWell(
+                  onTap: () {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => PollActivityScreen(
+                    //       title: 'Poll participated',
+                    //       pollsList: pollProvider.pollsCreatedByUser,
+                    //     ),
+                    //   ),
+                    // );
+                  },
+                  child: InfoContainer(
+                    count: pollCount,
+                    title: 'Polls Participated',
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PollActivityScreen(
+                          title: 'Poll Created',
+                          pollsList: pollProvider.pollsCreatedByUser,
+                          userId: uid,
+                        ),
+                      ),
+                    );
+                  },
+                  child: InfoContainer(
+                      count: pollCreatedCount, title: 'Polls Created'),
+                ),
               ],
             ),
             const SizedBox(

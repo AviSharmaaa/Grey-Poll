@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../state/current_user_state.dart';
 import '../../../utils/app_theme.dart';
-import '../../../widgets/snack_bar.dart';
 
 class LoginCredentials extends StatefulWidget {
   final TextEditingController emailController;
@@ -30,18 +29,21 @@ class _LoginCredentialsState extends State<LoginCredentials> {
     });
   }
 
-  void justToAvoidAsyncWarning(String response) {
-    showSnackBar(context, response);
-  }
-
-  void _resetPassword({BuildContext? context, String? email}) async {
+  void _resetPassword(
+      {BuildContext? context,
+      String? email,
+      ScaffoldMessengerState? messenger}) async {
     String response = 'error';
     CurrentUser currentUser = Provider.of<CurrentUser>(context!, listen: false);
 
     try {
       response = await currentUser.resetPassword(email!);
       if (response != "success") {
-        justToAvoidAsyncWarning(response);
+        messenger!.showSnackBar(
+          SnackBar(
+            content: Text(response),
+          ),
+        );
       }
     } catch (e) {
       response = e.toString();
@@ -132,9 +134,11 @@ class _LoginCredentialsState extends State<LoginCredentials> {
               alignment: Alignment.topLeft,
               child: GestureDetector(
                 onTap: () {
+                  final scaffoldMessenger = ScaffoldMessenger.of(context);
                   _resetPassword(
                     context: context,
                     email: widget.emailController.text,
+                    messenger: scaffoldMessenger,
                   );
                 },
                 child: Text(
