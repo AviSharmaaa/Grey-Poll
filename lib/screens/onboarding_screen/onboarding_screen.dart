@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:online_voting_app/utils/app_theme.dart';
-import 'widgets/background_design.dart';
+import '../../utils/app_theme.dart';
+import '../../widgets/background_design.dart';
 import 'widgets/build_page.dart';
 import 'widgets/navigation_widget.dart';
 
@@ -42,7 +42,16 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     return Scaffold(
       body: Stack(
         children: [
-          BackgroundDesign(),
+          BackgroundDesign(
+            shapeOneRight: 0,
+            shapeOneTop: 0.05,
+            shapeTwoLeft: 0.05,
+            shapeTwoBottom: 0.1,
+            shapeThreeLeft: 0.62,
+            shapeThreeBottom: 0,
+            shapeFourLeft: 0.03,
+            shapeFourBottom: 95,
+          ),
           PageView(
             onPageChanged: (value) {
               setState(() {
@@ -84,7 +93,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             ),
           ),
           NavigationWidget(
-              isLastPage: isLastPage, controller: controller, theme: theme),
+            isLastPage: isLastPage,
+            controller: controller,
+            theme: theme,
+          ),
         ],
       ),
     );

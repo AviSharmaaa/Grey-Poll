@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../state/poll_state.dart';
 import '../../utils/app_theme.dart';
+import '../../widgets/background_design.dart';
 import 'widgets/show_poll_list.dart';
-import 'widgets/background_design.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -26,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: theme.kPrimaryColor,
@@ -49,14 +50,22 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: 
-          Stack(
-            children: [
-              BackgroundDesign(),
-              ShowPollList(),
-            ],
+      body: Stack(
+        children: [
+          BackgroundDesign(
+            shapeOneRight: -size.width * 0.18,
+            shapeOneTop: 0.12,
+            shapeTwoLeft: 0.15,
+            shapeTwoBottom: 0.05,
+            shapeThreeLeft: 0.62,
+            shapeThreeBottom: 0,
+            shapeFourLeft: 0.03,
+            shapeFourBottom: 45,
+            sizedboxThreeHeight: size.height * 0.50,
           ),
+          ShowPollList(),
+        ],
+      ),
     );
   }
 }
-

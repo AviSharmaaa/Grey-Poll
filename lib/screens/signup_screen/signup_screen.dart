@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:online_voting_app/utils/app_theme.dart';
-import 'widgets/background_design.dart';
+import 'package:online_voting_app/widgets/background_design.dart';
 import 'widgets/bottom_design.dart';
 import 'widgets/signup_credentials.dart';
 
@@ -35,7 +35,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
-              BackgroundDesign(),
+              BackgroundDesign(
+                shapeOneRight: 0,
+                shapeOneTop: 0.05,
+                shapeTwoLeft: 0.05,
+                shapeTwoBottom: 0.1,
+                shapeThreeLeft: 0.62,
+                shapeThreeBottom: 0,
+                shapeFourLeft: 0.03,
+                shapeFourBottom: 45,
+              ),
               Positioned(
                 top: 35,
                 left: 10,

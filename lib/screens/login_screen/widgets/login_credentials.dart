@@ -29,10 +29,11 @@ class _LoginCredentialsState extends State<LoginCredentials> {
     });
   }
 
-  void _resetPassword(
-      {BuildContext? context,
-      String? email,
-      ScaffoldMessengerState? messenger}) async {
+  void _resetPassword({
+    BuildContext? context,
+    String? email,
+    ScaffoldMessengerState? messenger,
+  }) async {
     String response = 'error';
     CurrentUser currentUser = Provider.of<CurrentUser>(context!, listen: false);
 

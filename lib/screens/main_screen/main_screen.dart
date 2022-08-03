@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:online_voting_app/state/misc_state.dart';
-import 'package:online_voting_app/utils/app_theme.dart';
 import 'package:provider/provider.dart';
+import '../../state/misc_state.dart';
+import '../../utils/app_theme.dart';
 import '../create_poll_screen/create_poll_screen.dart';
 import '../home_screen/home_screen.dart';
 import '../profile_screen/profile_screen.dart';
@@ -33,9 +33,11 @@ class _MainScreenState extends State<MainScreen> {
           children: screens,
         ),
         bottomNavigationBar: CustomBottomNavBar(
-            currentIndex: currentIndex, theme: theme, provider: misc),
+          currentIndex: currentIndex,
+          theme: theme,
+          provider: misc,
+        ),
       );
     });
   }
 }
-

@@ -6,27 +6,15 @@ class PollState extends ChangeNotifier {
   List<PollModel> _pollList = [];
   List<PollModel> _activePollList = [];
   List<PollModel> _pollsCreatedByUser = [];
-  PollModel? _activepoll;
+  PollModel? _activePoll;
   String? _selectedOption;
   bool pollListAvailable = false;
 
   List<TextEditingController> _controllers = [];
   List<TextField> _textFields = [];
 
-  List<TextEditingController> get getTextEditingController => _controllers;
-  List<TextField> get getTextField => _textFields;
-
-  set setTextEditingControllers(value) {
-    _controllers = value;
-    notifyListeners();
-  }
-
-  set setTextField(value) {
-    _textFields = value;
-    notifyListeners();
-  }
-
   void loadPollList() async {
+    _activePollList = [];
     pollListAvailable = false;
     _pollList = await PollDatabase().getPollListFromFirestore();
 
@@ -35,6 +23,7 @@ class PollState extends ChangeNotifier {
         _activePollList.add(poll);
       }
     }
+
     setActivePollList = _activePollList;
   }
 
@@ -83,13 +72,29 @@ class PollState extends ChangeNotifier {
 
   void clearState() {
     _pollList = [];
-    _activepoll = PollModel();
+    _activePoll = PollModel();
     _selectedOption = '';
   }
 
+  //getter functions
+  List<TextEditingController> get getTextEditingController => _controllers;
+  List<TextField> get getTextField => _textFields;
   List<PollModel> get pollList => _pollList;
   List<PollModel> get activePollList => _activePollList;
   List<PollModel> get pollsCreatedByUser => _pollsCreatedByUser;
+  PollModel? get getActivePoll => _activePoll;
+  String? get getSelecetedOption => _selectedOption;
+
+  //setter functions
+  set setTextEditingControllers(value) {
+    _controllers = value;
+    notifyListeners();
+  }
+
+  set setTextField(value) {
+    _textFields = value;
+    notifyListeners();
+  }
 
   set setActivePollList(value) {
     _activePollList = value;
@@ -99,24 +104,14 @@ class PollState extends ChangeNotifier {
 
   set setPollsCreatedByUserList(value) {
     _pollsCreatedByUser = value;
-    // notifyListeners();
   }
 
-  // set setpollList(value) {
-  //   _pollList = value;
-  //   pollListAvailable = true;
-  //   notifyListeners();
-  // }
-
-  PollModel? get activepoll => _activepoll;
-  String? get selecetedOption => _selectedOption;
-
-  set activepoll(value) {
-    _activepoll = value;
+  set setActivePoll(value) {
+    _activePoll = value;
     notifyListeners();
   }
 
-  set selectedOption(value) {
+  set setSelectedOption(value) {
     _selectedOption = value;
     notifyListeners();
   }

@@ -167,7 +167,7 @@ class _PollFormState extends State<PollForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MiscState>(builder: (context, value, child) {
+    
       return Column(
         children: [
           const SizedBox(
@@ -201,6 +201,5 @@ class _PollFormState extends State<PollForm> {
           ),
         ],
       );
-    });
   }
 }

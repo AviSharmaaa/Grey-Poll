@@ -5,11 +5,11 @@ class PollInfo extends StatelessWidget {
   const PollInfo({
     Key? key,
     required this.size,
-    required this.activeVote,
+    required this.activePoll,
   }) : super(key: key);
 
   final Size size;
-  final PollModel? activeVote;
+  final PollModel activePoll;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class PollInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            activeVote!.pollTitle!,
+            activePoll.pollTitle!,
             style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900),
           ),
           const SizedBox(
@@ -37,7 +37,7 @@ class PollInfo extends StatelessWidget {
             height: 10,
           ),
           Text(
-            activeVote!.description!,
+            activePoll.description!,
             style: const TextStyle(
               fontSize: 20,
             ),

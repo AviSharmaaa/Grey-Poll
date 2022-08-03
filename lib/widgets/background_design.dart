@@ -3,7 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:online_voting_app/utils/app_theme.dart';
 
 class BackgroundDesign extends StatelessWidget {
-  BackgroundDesign({Key? key}) : super(key: key);
+  BackgroundDesign({
+    Key? key,
+    required this.shapeOneTop,
+    required this.shapeOneRight,
+    required this.shapeTwoLeft,
+    required this.shapeTwoBottom,
+    required this.shapeThreeLeft,
+    required this.shapeThreeBottom,
+    required this.shapeFourLeft,
+    required this.shapeFourBottom,
+    this.sizedboxOneHeight,
+    this.sizedboxTwoHeight,
+    this.sizedboxThreeHeight,
+    this.sizedboxFourHeight,
+  }) : super(key: key);
+
+  final double shapeOneTop;
+  final double shapeOneRight;
+  final double shapeTwoLeft;
+  final double shapeTwoBottom;
+  final double shapeThreeLeft;
+  final double shapeThreeBottom;
+  final double shapeFourLeft;
+  final double shapeFourBottom;
+  final double? sizedboxOneHeight;
+  final double? sizedboxTwoHeight;
+  final double? sizedboxThreeHeight;
+  final double? sizedboxFourHeight;
 
   final AppTheme theme = AppTheme();
 
@@ -13,14 +40,13 @@ class BackgroundDesign extends StatelessWidget {
 
     return Stack(
       children: [
-        Container(
-          color: theme.kCanvasColor,
-          height: size.height,
+        SizedBox(
+          height: (sizedboxOneHeight == null) ? size.height : sizedboxOneHeight,
           child: Stack(
             children: [
               Positioned(
-                right: -size.width * 0.22,
-                top: -size.height * 0.12,
+                right: shapeOneRight,
+                top: -size.height * shapeOneTop,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -61,12 +87,12 @@ class BackgroundDesign extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: size.height * 0.4,
+          height: (sizedboxTwoHeight == null) ? size.height * 0.4 : sizedboxTwoHeight,
           child: Stack(
             children: [
               Positioned(
-                left: -size.width * 0.15,
-                bottom: size.height * 0.05,
+                left: -size.width * shapeTwoLeft,
+                bottom: size.height * shapeTwoBottom,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -100,12 +126,12 @@ class BackgroundDesign extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: size.height * 0.50,
+          height: (sizedboxThreeHeight == null) ? size.height * 0.43 : sizedboxThreeHeight,
           child: Stack(
             children: [
               Positioned(
-                left: size.width * 0.62,
-                bottom: 0,
+                left: size.width * shapeThreeLeft,
+                bottom: shapeThreeBottom,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -125,6 +151,22 @@ class BackgroundDesign extends StatelessWidget {
                       depth: -50,
                       curveType: CurveType.convex,
                     ),
+                    ClayContainer(
+                      color: theme.kPrimaryColor,
+                      width: 60,
+                      height: 60,
+                      borderRadius: 200,
+                      depth: 50,
+                      curveType: CurveType.concave,
+                    ),
+                    ClayContainer(
+                      color: theme.kPrimaryColor,
+                      width: 30,
+                      height: 30,
+                      borderRadius: 200,
+                      depth: 50,
+                      curveType: CurveType.convex,
+                    ),
                   ],
                 ),
               ),
@@ -132,11 +174,12 @@ class BackgroundDesign extends StatelessWidget {
           ),
         ),
         SizedBox(
+          height: (sizedboxFourHeight == null) ? size.height : sizedboxFourHeight,
           child: Stack(
             children: [
               Positioned(
-                left: size.width * 0.03,
-                bottom: 45,
+                left: size.width * shapeFourLeft,
+                bottom: shapeFourBottom,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [

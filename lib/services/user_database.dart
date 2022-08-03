@@ -14,7 +14,6 @@ class Database {
       final newUser = UserModel(
         name: user.name,
         email: user.email,
-        password: user.password,
         accountCreatedAt: user.accountCreatedAt,
         participatedInPoll: user.participatedInPoll,
         pollsCreated: user.pollsCreated,
@@ -51,7 +50,6 @@ class Database {
 
       currUser.uid = uid;
       currUser.name = data['name'];
-      currUser.password = data['password'];
       currUser.email = data['email'];
       currUser.accountCreatedAt = data['accountCreatedAt'];
       currUser.participatedInPoll = pollsParticipated;

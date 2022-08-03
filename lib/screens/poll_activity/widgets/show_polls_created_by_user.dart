@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:online_voting_app/screens/results_screen.dart/result_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../models/poll_model.dart';
 import '../../../state/poll_state.dart';
 import '../../../widgets/poll_card.dart';
+import '../../results_screen.dart/result_screen.dart';
 
 class ShowPollsCreatedByUser extends StatelessWidget {
   ShowPollsCreatedByUser({Key? key}) : super(key: key);
@@ -18,21 +18,10 @@ class ShowPollsCreatedByUser extends StatelessWidget {
         provider.loadPollsCreatedByUser(firebaseUser!.uid);
         List<PollModel> pollsList = provider.pollsCreatedByUser;
 
-        bool isPollActive(String id) {
-          PollModel tappedPoll = PollModel();
-          for (var poll in pollsList) {
-            if (poll.pollId == id) {
-              tappedPoll = poll;
-              break;
-            }
-          }
-          if (tappedPoll.isActive!) {
-            return true;
-          }
-          return false;
+        bool isPollActive(String pollId) {
+          PollModel activePoll = provider.getActivePoll!;
+          return activePoll.isActive!;
         }
-
-        
 
         return ListView.builder(
           itemCount: pollsList.length,
@@ -42,9 +31,6 @@ class ShowPollsCreatedByUser extends StatelessWidget {
               provider: provider,
               poll: poll,
               index: index,
-              alertBoxTitle: "Disable Poll",
-              alertBoxMessage: "Press OK to confirm to disable selected poll. Remember this action is irreversible.",
-              pushWidgetOnTap: ResultScreen(),
               customScreen: ResultScreen(),
               customFunction: isPollActive,
               doesDisablePoll: true,

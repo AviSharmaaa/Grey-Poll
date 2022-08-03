@@ -24,12 +24,12 @@ class DisplayOptions extends StatelessWidget {
         splashFactory: NoSplash.splashFactory,
         highlightColor: Colors.transparent,
         onTap: () {
-          provider.selectedOption = option;
+          provider.setSelectedOption = option;
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 500),
           decoration: BoxDecoration(
-            color: (provider.selecetedOption == option)
+            color: (provider.getSelecetedOption == option)
                 ? theme.kSecondaryColor2
                 : Colors.white,
             borderRadius: BorderRadius.circular(30),
@@ -51,15 +51,15 @@ class DisplayOptions extends StatelessWidget {
                   option,
                   style: TextStyle(
                     fontSize: 20,
-                    fontWeight: (provider.selecetedOption == option)
+                    fontWeight: (provider.getSelecetedOption == option)
                         ? FontWeight.bold
                         : FontWeight.w500,
-                    color: (provider.selecetedOption == option)
+                    color: (provider.getSelecetedOption == option)
                         ? Colors.white
                         : Colors.black,
                   ),
                 ),
-                if (provider.selecetedOption == option)
+                if (provider.getSelecetedOption == option)
                   const Icon(
                     Icons.check_circle_outline_sharp,
                     color: Colors.white,

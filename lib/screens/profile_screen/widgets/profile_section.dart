@@ -44,10 +44,12 @@ class _ProfileSectionState extends State<ProfileSection> {
       final int pollCount = (user.participatedInPoll != null)
           ? user.participatedInPoll!.length
           : 0;
-      final int pollCreatedCount =
-          (user.pollsCreated != null) ? user.pollsCreated!.length : 0;
-      final int passwordLength = user.password!.length;
-      final String obscureString = '*' * passwordLength;
+
+      final int pollCreatedCount = (user.pollsCreated != null)
+          ? user.pollsCreated!.length
+          : 0;
+          
+      final String obscureString = '*' * 10;
 
       final String uid = user.uid!;
 
@@ -62,22 +64,9 @@ class _ProfileSectionState extends State<ProfileSection> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                InkWell(
-                  onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => PollActivityScreen(
-                    //       title: 'Poll participated',
-                    //       pollsList: pollProvider.pollsCreatedByUser,
-                    //     ),
-                    //   ),
-                    // );
-                  },
-                  child: InfoContainer(
-                    count: pollCount,
-                    title: 'Polls Participated',
-                  ),
+                InfoContainer(
+                  count: pollCount,
+                  title: 'Polls Participated',
                 ),
                 InkWell(
                   onTap: () {
@@ -106,7 +95,7 @@ class _ProfileSectionState extends State<ProfileSection> {
               title: 'Change Name',
               fieldName: 'Full Name',
               data: user.name!,
-              icon: Icons.lock_outline_sharp,
+              icon: Icons.person,
               provider: provider,
             ),
             const SizedBox(
@@ -118,7 +107,7 @@ class _ProfileSectionState extends State<ProfileSection> {
               title: 'Change Email',
               fieldName: 'Email',
               data: user.email!,
-              icon: Icons.lock_outline_sharp,
+              icon: Icons.alternate_email,
               provider: provider,
             ),
             const SizedBox(

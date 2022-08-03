@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:online_voting_app/models/poll_model.dart';
-
-import 'package:online_voting_app/utils/app_theme.dart';
-
-import 'widgets/background_design.dart';
+import '../../models/poll_model.dart';
+import '../../utils/app_theme.dart';
+import '../../widgets/background_design.dart';
 import 'widgets/show_polls_created_by_user.dart';
+
 
 class PollActivityScreen extends StatelessWidget {
   final AppTheme theme = AppTheme();
@@ -20,6 +19,7 @@ class PollActivityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -37,7 +37,17 @@ class PollActivityScreen extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          BackgroundDesign(),
+          BackgroundDesign(
+            shapeOneRight: -size.width * 0.22,
+            shapeOneTop: 0.12,
+            shapeTwoLeft: 0.15,
+            shapeTwoBottom: 0.05,
+            shapeThreeLeft: 0.56,
+            shapeThreeBottom: 0,
+            shapeFourLeft: 0.03,
+            shapeFourBottom: 45,
+            sizedboxThreeHeight: size.height * 0.55,
+          ),
           ShowPollsCreatedByUser(),
         ],
       ),

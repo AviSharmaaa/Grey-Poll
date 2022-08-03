@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'widgets/background_design.dart';
+import '../../widgets/background_design.dart';
 import 'widgets/bottom_container.dart';
 import 'widgets/login_credentials.dart';
 
@@ -49,8 +49,6 @@ class _LoginScreenState extends State<LoginScreen> {
   //     ),
   //   );
   // }
-  // ignore: todo
-  //TODO: Add show password
 
   @override
   void dispose() {
@@ -68,7 +66,16 @@ class _LoginScreenState extends State<LoginScreen> {
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
-              BackgroundDesign(),
+              BackgroundDesign(
+                shapeOneRight: 0,
+                shapeOneTop: 0.05,
+                shapeTwoLeft: 0.05,
+                shapeTwoBottom: 0.1,
+                shapeThreeLeft: 0.62,
+                shapeThreeBottom: 0,
+                shapeFourLeft: 0.03,
+                shapeFourBottom: 45,
+              ),
               LoginCredentials(
                 emailController: _emailController,
                 passwordController: _passwordController,

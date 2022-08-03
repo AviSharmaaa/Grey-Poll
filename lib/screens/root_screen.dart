@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:online_voting_app/screens/main_screen/main_screen.dart';
 import 'package:provider/provider.dart';
 import '../state/current_user_state.dart';
 import 'login_screen/login_screen.dart';
+import 'main_screen/main_screen.dart';
 
 enum AuthStatus {
   notLoggedIn,

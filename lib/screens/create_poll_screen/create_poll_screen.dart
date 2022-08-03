@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:online_voting_app/utils/app_theme.dart';
 import 'package:provider/provider.dart';
 import '../../state/poll_state.dart';
+import '../../utils/app_theme.dart';
 import 'widgets/poll_form.dart';
 
 class CreatePollScreen extends StatelessWidget {
@@ -27,7 +27,7 @@ class CreatePollScreen extends StatelessWidget {
 }
 
 class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
+   const Body({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

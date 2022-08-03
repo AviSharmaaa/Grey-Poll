@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:online_voting_app/main.dart';
+import 'package:online_voting_app/widgets/background_design.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../state/current_user_state.dart';
 import '../../utils/app_theme.dart';
-import 'widgets/background_design.dart';
 import 'widgets/profile_section.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -12,29 +12,27 @@ class ProfileScreen extends StatelessWidget {
 
   final AppTheme theme = AppTheme();
 
+  void setVal() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('showHome', false);
+  }
+
+  void retrunToMainScreen(NavigatorState navigator) async {
+    final prefs = await SharedPreferences.getInstance();
+    final bool showHome = prefs.getBool('showHome') ?? false;
+    navigator.pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => GreyPoll(
+          showHome: showHome,
+        ),
+      ),
+      (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    void setVal() async {
-      final prefs = await SharedPreferences.getInstance();
-      prefs.setBool('showHome', false);
-    }
-
-    void justToAvoidAsynWarning(bool showHome) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-            builder: (context) => GreyPoll(
-                  showHome: showHome,
-                )),
-        (route) => false,
-      );
-    }
-
-    void retrunToMainScreen() async {
-      final prefs = await SharedPreferences.getInstance();
-      final bool showHome = prefs.getBool('showHome') ?? false;
-      justToAvoidAsynWarning(showHome);
-    }
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
@@ -45,6 +43,7 @@ class ProfileScreen extends StatelessWidget {
               size: 30,
             ),
             onPressed: () async {
+              final navigator = Navigator.of(context);
               setVal();
               CurrentUser currentUser = Provider.of<CurrentUser>(
                 context,
@@ -53,7 +52,7 @@ class ProfileScreen extends StatelessWidget {
               String response = await currentUser.signOut();
 
               if (response == "success") {
-                retrunToMainScreen();
+                retrunToMainScreen(navigator);
               }
             },
           ),
@@ -64,7 +63,17 @@ class ProfileScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: Stack(children: [
-        BackgroundDesign(),
+        BackgroundDesign(
+          shapeOneRight: -size.width * 0.22,
+          shapeOneTop: 0.12,
+          shapeTwoLeft: 0.15,
+          shapeTwoBottom: 0.05,
+          shapeThreeLeft: 0.62,
+          shapeThreeBottom: 0,
+          shapeFourLeft: 0.03,
+          shapeFourBottom: 45,
+          sizedboxThreeHeight: size.height * 0.50,
+        ),
         const SingleChildScrollView(
           child: ProfileSection(),
         ),

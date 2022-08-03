@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/poll_model.dart';
-import '../state/poll_state.dart';
 
 class PollDatabase {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -46,14 +43,12 @@ class PollDatabase {
     });
   }
 
-  void retriveMarkedPollFromFirestore({
-    String? pollId,
-    BuildContext? context,
-  }) async {
-    await _firestore.collection('pollsDB').doc(pollId).get().then((value) {
-      Provider.of<PollState>(context!, listen: false).activepoll =
-          mapFirestoreDocTopoll(value);
-    });
+  Future<PollModel> retriveMarkedPollFromFirestore(String pollId) async {
+    PollModel poll;
+    DocumentSnapshot snapshot =
+        await _firestore.collection('pollsDB').doc(pollId).get();
+    poll = mapFirestoreDocTopoll(snapshot);
+    return poll;
   }
 
   Future<String> createPoll(

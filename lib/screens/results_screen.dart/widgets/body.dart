@@ -5,15 +5,15 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import '../../../models/poll_model.dart';
 import '../../../services/poll_database.dart';
 import '../../../state/poll_state.dart';
-import 'background_design.dart';
+import '../../../widgets/background_design.dart';
 import 'poll_info.dart';
 
 //Helper Class
-class VoteData {
+class PollData {
   String option = '';
   int total = 0;
 
-  VoteData({
+  PollData({
     required this.option,
     required this.total,
   });
@@ -22,75 +22,78 @@ class VoteData {
 class Body extends StatelessWidget {
   Body({
     Key? key,
-    required this.activeVote,
   }) : super(key: key);
 
-  final PollModel? activeVote;
+  // final activePoll = Provider.of<PollState>(context, listen: false).getActivePoll!;
   final AppTheme theme = AppTheme();
 
-  Widget createChart(BuildContext context) {
+  Widget createChart(BuildContext context, PollModel activePoll) {
     return Consumer<PollState>(
       builder: (context, value, child) {
         return charts.BarChart(
-          retriveVoteResult(context),
+          retriveVoteResult(context, activePoll),
           animate: true,
         );
       },
     );
   }
 
-  List<charts.Series<VoteData, String>> retriveVoteResult(
-    BuildContext context,
+  List<charts.Series<PollData, String>> retriveVoteResult(
+    BuildContext context, PollModel activePoll
   ) {
-    PollModel? activeVote = Provider.of<PollState>(
-      context,
-      listen: false,
-    ).activepoll;
+    List<PollData> data = <PollData>[];
 
-    List<VoteData> data = <VoteData>[];
-
-    activeVote!.options!.forEach((key, value) {
-      data.add(VoteData(option: key, total: value));
+    activePoll.options!.forEach((key, value) {
+      String option;
+      (key.length > 12) ? option = "${key.substring(0, 9)}..." : option = key;
+      data.add(PollData(option: option, total: value));
     });
 
     return [
-      charts.Series<VoteData, String>(
-        id: 'VoteResult',
+      charts.Series<PollData, String>(
+        id: 'PollResult',
         colorFn: (_, pos) {
           if (pos! % 2 == 0) {
             return charts.MaterialPalette.pink.shadeDefault;
           }
           return charts.MaterialPalette.purple.shadeDefault;
         },
-        domainFn: (VoteData vote, _) => vote.option,
-        measureFn: (VoteData vote, _) => vote.total,
+        domainFn: (PollData vote, _) => vote.option,
+        measureFn: (PollData vote, _) => vote.total,
         data: data,
       )
     ];
   }
 
-  void retriveActiveVoteData(BuildContext context) {
-    final voteId = Provider.of<PollState>(
-      context,
-      listen: false,
-    ).activepoll?.pollId;
-    PollDatabase().retriveMarkedPollFromFirestore(
-      pollId: voteId,
-      context: context,
-    );
+  void retriveActivePollData(PollState provider, PollModel activePoll) async {
+    final pollId = activePoll.pollId;
+
+    provider.setActivePoll =
+        await PollDatabase().retriveMarkedPollFromFirestore(pollId!);
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    retriveActiveVoteData(context);
+    PollState provider = Provider.of<PollState>(context, listen: false);
+    final PollModel activePoll = provider.getActivePoll!;
+    retriveActivePollData(provider, activePoll);
 
     return Stack(
       children: [
-        BackgroundDesign(),
+        BackgroundDesign(
+          shapeOneRight: -size.width * 0.22,
+          shapeOneTop: 0.12,
+          shapeTwoLeft: 0.15,
+          shapeTwoBottom: 0.05,
+          shapeThreeLeft: 0.62,
+          shapeThreeBottom: 0,
+          shapeFourLeft: 0.03,
+          shapeFourBottom: 45,
+          sizedboxThreeHeight: size.height * 0.435,
+        ),
         Positioned(
-          // top: 0,
-          child: PollInfo(size: size, activeVote: activeVote),
+          child: PollInfo(size: size, activePoll: activePoll),
         ),
         Positioned(
           bottom: 0,
@@ -99,7 +102,7 @@ class Body extends StatelessWidget {
             width: size.width,
             height: size.height * 0.45,
             color: theme.kCanvasColor,
-            child: createChart(context),
+            child: createChart(context, activePoll),
           ),
         ),
       ],

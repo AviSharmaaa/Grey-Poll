@@ -8,8 +8,6 @@ import '../models/user_model.dart';
 class CurrentUser extends ChangeNotifier {
   UserModel currentUser = UserModel();
 
-  UserModel get getCurrentUser => currentUser;
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<String> onStartUp() async {
@@ -46,12 +44,11 @@ class CurrentUser extends ChangeNotifier {
 
     try {
       UserCredential authResult = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+          email: email, password: password,);
 
       curruser.uid = authResult.user!.uid;
       curruser.email = authResult.user!.email;
       curruser.name = name;
-      curruser.password = password;
       curruser.accountCreatedAt = Timestamp.now();
       curruser.participatedInPoll = [];
       curruser.pollsCreated = [];
@@ -163,8 +160,8 @@ class CurrentUser extends ChangeNotifier {
     final User firebaseUser = _auth.currentUser!;
 
     try {
-      await Database().updateUserEmail(email).then((value) async {
-        await firebaseUser.updateEmail(email).then((value) async {
+      await firebaseUser.updateEmail(email).then((value) async {
+        await Database().updateUserEmail(email).then((value) async {
           setCurrentUser = await Database().getUserInfo(firebaseUser.uid);
           response = 'success';
         });
@@ -180,8 +177,8 @@ class CurrentUser extends ChangeNotifier {
     final User firebaseUser = _auth.currentUser!;
 
     try {
-      await Database().updateUserPassword(password).then((value) async {
-        await firebaseUser.updatePassword(password).then((value) async {
+      await firebaseUser.updatePassword(password).then((value) async {
+        await Database().updateUserPassword(password).then((value) async {
           setCurrentUser = await Database().getUserInfo(firebaseUser.uid);
           response = 'success';
         });
@@ -192,6 +189,10 @@ class CurrentUser extends ChangeNotifier {
     return response;
   }
 
+  //getter function
+  UserModel get getCurrentUser => currentUser;
+
+  //setter function
   set setCurrentUser(value) {
     currentUser = value;
     notifyListeners();

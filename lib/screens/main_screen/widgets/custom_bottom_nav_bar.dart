@@ -1,8 +1,7 @@
-import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
-
 import '../../../state/misc_state.dart';
 import '../../../utils/app_theme.dart';
+import 'bottom_nav_bar_icon.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   const CustomBottomNavBar({
@@ -29,66 +28,26 @@ class CustomBottomNavBar extends StatelessWidget {
       showUnselectedLabels: false,
       items: [
         BottomNavigationBarItem(
-          icon: ClayAnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            borderRadius: 200,
-            width: (currentIndex == 0) ? 100 : 45,
-            color: theme.kCanvasColor,
-            height: 45,
-            depth: (currentIndex == 0) ? 30 : 50,
-            curveType: CurveType.concave,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.home,
-                color: (currentIndex == 0)
-                    ? theme.kPrimaryColor
-                    : theme.kSecondaryColor2,
-                size: (currentIndex == 0) ? 30 : 24,
-              ),
-            ),
+          icon: BottomNavBarIcon(
+            currentIndex: currentIndex,
+            index: 0,
+            icon: Icons.home,
           ),
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: ClayAnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            borderRadius: 200,
-            width: (currentIndex == 1) ? 100 : 45,
-            height: 45,
-            depth: (currentIndex == 1) ? 30 : 50,
-            curveType: CurveType.concave,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.poll_outlined,
-                color: (currentIndex == 1)
-                    ? theme.kPrimaryColor
-                    : theme.kSecondaryColor2,
-                size: (currentIndex == 1) ? 30 : 24,
-              ),
-            ),
+          icon: BottomNavBarIcon(
+            currentIndex: currentIndex,
+            index: 1,
+            icon: Icons.poll_outlined,
           ),
           label: 'Create Poll',
         ),
         BottomNavigationBarItem(
-          icon: ClayAnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            borderRadius: 200,
-            width: (currentIndex == 2) ? 100 : 45,
-            height: 45,
-            depth: (currentIndex == 2) ? 30 : 50,
-            curveType: CurveType.concave,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.person,
-                color: (currentIndex == 2)
-                    ? theme.kPrimaryColor
-                    : theme.kSecondaryColor2,
-                size: (currentIndex == 2) ? 30 : 24,
-              ),
-            ),
+          icon: BottomNavBarIcon(
+            currentIndex: currentIndex,
+            index: 2,
+            icon: Icons.person,
           ),
           label: 'Account',
         ),

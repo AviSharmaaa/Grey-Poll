@@ -14,9 +14,10 @@ class PollScreen extends StatelessWidget {
   final AppTheme theme = AppTheme();
 
   bool isOptionSelected(BuildContext context) {
-    if (Provider.of<PollState>(context, listen: false)
-            .selecetedOption
-            ?.isEmpty ==
+    if (Provider.of<PollState>(
+          context,
+          listen: false,
+        ).getSelecetedOption?.isEmpty ==
         true) {
       return false;
     }
@@ -24,16 +25,20 @@ class PollScreen extends StatelessWidget {
   }
 
   void castMyVote(BuildContext context, UserModel currentUser) {
-    final PollModel vote =
-        Provider.of<PollState>(context, listen: false).activepoll!;
+    final PollModel poll = Provider.of<PollState>(
+      context,
+      listen: false,
+    ).getActivePoll!;
 
-    final selectedOption =
-        Provider.of<PollState>(context, listen: false).selecetedOption;
+    final selectedOption = Provider.of<PollState>(
+      context,
+      listen: false,
+    ).getSelecetedOption;
 
     List<String>? updatedList = currentUser.participatedInPoll;
-    updatedList?.add(vote.pollId!);
+    updatedList?.add(poll.pollId!);
 
-    PollDatabase().markPoll(vote, selectedOption!);
+    PollDatabase().markPoll(poll, selectedOption!);
     Database().updatePollParticipation(updatedList!);
   }
 
@@ -41,14 +46,19 @@ class PollScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PollModel? activeVote = Provider.of<PollState>(context).activepoll;
+    PollModel? activePoll = Provider.of<PollState>(
+      context,
+      listen: true,
+    ).getActivePoll;
 
-    UserModel currentUser =
-        Provider.of<CurrentUser>(context, listen: false).getCurrentUser;
+    UserModel currentUser = Provider.of<CurrentUser>(
+      context,
+      listen: false,
+    ).getCurrentUser;
 
     List<String> pollOptions = [];
 
-    activeVote!.options!.forEach(
+    activePoll!.options!.forEach(
       (key, value) => pollOptions.add(key),
     );
 
@@ -91,7 +101,7 @@ class PollScreen extends StatelessWidget {
           }),
       body: SingleChildScrollView(
         child: DisplayPollDetails(
-          activeVote: activeVote,
+          activePoll: activePoll,
           pollOptions: pollOptions,
         ),
       ),

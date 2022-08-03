@@ -10,11 +10,11 @@ class DisplayPollDetails extends StatelessWidget {
   final AppTheme theme = AppTheme();
   DisplayPollDetails({
     Key? key,
-    required this.activeVote,
+    required this.activePoll,
     required this.pollOptions,
   }) : super(key: key);
 
-  final PollModel? activeVote;
+  final PollModel? activePoll;
   final List<String> pollOptions;
 
   @override
@@ -23,7 +23,7 @@ class DisplayPollDetails extends StatelessWidget {
     PollState provider = Provider.of<PollState>(context, listen: false);
     return Column(
       children: [
-        PollInfo(size: size, activeVote: activeVote),
+        PollInfo(size: size, activePoll: activePoll),
         const SizedBox(
           height: 20,
         ),

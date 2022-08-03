@@ -1,8 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import '../../../models/poll_model.dart';
 import '../../../state/poll_state.dart';
 import '../../../utils/app_theme.dart';
-import '../../../widgets/alert_dialog.dart';
 
 class PollCard extends StatelessWidget {
   PollCard({
@@ -11,120 +12,145 @@ class PollCard extends StatelessWidget {
     required this.poll,
     required this.index,
     required this.customFunction,
-    required this.alertBoxTitle,
-    required this.alertBoxMessage,
     required this.doesDisablePoll,
-    required this.pushWidgetOnTap,
     this.customScreen,
+    this.resultScreen,
   }) : super(key: key);
 
   final PollState provider;
   final PollModel poll;
   final int index;
-  final String alertBoxTitle;
-  final String alertBoxMessage;
-  final Widget pushWidgetOnTap;
+  final Widget? resultScreen;
   final Widget? customScreen;
   final bool doesDisablePoll;
   final Function customFunction;
   final AppTheme theme = AppTheme();
 
- 
+  int calculateTotalVotes(PollModel poll) {
+    int totalpolls = 0;
+    poll.options!.forEach((key, value) {
+      totalpolls += value as int;
+    });
+    return totalpolls;
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    String activepollId = provider.activepoll?.pollId ?? '';
-
-    int calculateTotalVotes(PollModel poll) {
-      int totalpolls = 0;
-      poll.options!.forEach((key, value) {
-        totalpolls += value as int;
-      });
-      return totalpolls;
+  void disablePoll(
+      String pollId, ScaffoldMessengerState scaffoldMessenger) async {
+    String response = "error";
+    try {
+      response = await provider.disablePoll(pollId);
+    } catch (e) {
+      response = e.toString();
     }
+    scaffoldMessenger.showSnackBar(
+      SnackBar(
+        content: Text(response),
+      ),
+    );
+  }
 
-    
+  Color returnColor(PollModel poll, String activePollId) {
+    Color color;
+    if (activePollId == poll.pollId) {
+      color = theme.kSecondaryColor2.withOpacity(0.8);
+    } else {
+      color = theme.kCanvasColor;
+    }
+    if (poll.isActive!) {
+      (activePollId == poll.pollId)
+          ? color = theme.kSecondaryColor2.withOpacity(0.8)
+          : color = theme.kCanvasColor;
+    } else {
+      color = Colors.grey.shade200;
+    }
+    return color;
+  }
 
-    void disablePoll(String pollId) async {
-      String response = "error";
-      final scaffoldMessenger = ScaffoldMessenger.of(context);
-      try {
-        response = await provider.disablePoll(pollId);
-      } catch (e) {
-        response = e.toString();
-      }
+  void showSnackBar(
+    ScaffoldMessengerState scaffoldMessenger,
+    bool doesDiablePoll,
+    NavigatorState navigator,
+  ) {
+    if (doesDisablePoll == false) {
       scaffoldMessenger.showSnackBar(
         SnackBar(
-          content: Text(response),
+          content: Text("Alreday participated. Displaying poll results"),
+          duration: const Duration(milliseconds: 1000),
+        ),
+      );
+      Future.delayed(
+        const Duration(milliseconds: 1500),
+        () {
+          navigator.push(
+            MaterialPageRoute(builder: (context) => resultScreen!),
+          );
+        },
+      );
+    } else {
+      scaffoldMessenger.showSnackBar(
+        SnackBar(
+          content: Text("Double tap to disable poll"),
         ),
       );
     }
+  }
 
-    Color returnColor(PollModel poll) {
-      Color color;
+  onTap(
+    BuildContext context,
+    ScaffoldMessengerState scaffoldMessenger,
+    NavigatorState navigator,
+  ) {
+    provider.setActivePoll = poll;
+    PollModel activePoll = provider.getActivePoll!;
 
-      if (activepollId == poll.pollId) {
-        color = theme.kSecondaryColor2.withOpacity(0.8);
-      } else {
-        color = theme.kCanvasColor;
-      }
-      if (poll.isActive!) {
-        (activepollId == poll.pollId)
-            ? color = theme.kSecondaryColor2.withOpacity(0.8)
-            : color = theme.kCanvasColor;
-      } else {
-        color = Colors.grey.shade200;
-      }
-      return color;
+    if (customFunction(activePoll.pollId)) {
+      showSnackBar(scaffoldMessenger, doesDisablePoll, navigator);
+    } else {
+      Future.delayed(
+        const Duration(milliseconds: 600),
+        () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => customScreen!,
+            ),
+          );
+        },
+      );
     }
+  }
 
-     Future<void> disablePollOnTap(BuildContext context, PollModel activePoll) async {
-      
-
-      final response = await showDialog(context: context, builder: (context) => customAlertDialog(context, alertBoxTitle, alertBoxMessage, doesDisablePoll, pushWidgetOnTap));
-      print(response);
-      if (doesDisablePoll == true && response == true) {
-        disablePoll(activePoll.pollId!);
-      }
-    }
-
-
+  @override
+  Widget build(BuildContext context) {
+    String activePollId = provider.getActivePoll?.pollId ?? '';
 
     int totalVotes = calculateTotalVotes(poll);
     String pollTitle = (poll.pollTitle!.length > 20)
         ? '${poll.pollTitle!.substring(0, 20)}...'
         : poll.pollTitle!;
+
     String description = (poll.description!.length >= 74)
         ? '${poll.description!.substring(0, 74)}...'
         : poll.description!;
+
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 18.0),
       child: InkWell(
-        onTap: () async {
-          // final scaffoldMessenger = ScaffoldMessenger.of(context);
-          provider.activepoll = poll;
-          PollModel activePoll = provider.activepoll!;
-
-          if (customFunction(activePoll.pollId)) {
-            disablePollOnTap(context,activePoll);
-          } else {
-            Future.delayed(
-              const Duration(milliseconds: 600),
-              () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => customScreen!,
-                  ),
-                );
-              },
-            );
-          }
+        onTap: () {
+          onTap(context, scaffoldMessenger, navigator);
+        },
+        onDoubleTap: () {
+          (doesDisablePoll == true)
+              ? disablePoll(activePollId, scaffoldMessenger)
+              : null;
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           decoration: BoxDecoration(
-            color: returnColor(poll),
+            color: returnColor(poll, activePollId),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
@@ -145,7 +171,7 @@ class PollCard extends StatelessWidget {
                   children: [
                     Text(
                       pollTitle,
-                      style: activepollId == poll.pollId
+                      style: activePollId == poll.pollId
                           ? TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.w900,
@@ -161,7 +187,7 @@ class PollCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
-                        color: activepollId == poll.pollId
+                        color: activePollId == poll.pollId
                             ? theme.kWhiteText
                             : theme.kTextColor,
                       ),
@@ -176,7 +202,7 @@ class PollCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
-                    color: activepollId == poll.pollId
+                    color: activePollId == poll.pollId
                         ? theme.kWhiteText
                         : theme.kTextColor,
                   ),
@@ -186,7 +212,7 @@ class PollCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w300,
-                    color: activepollId == poll.pollId
+                    color: activePollId == poll.pollId
                         ? theme.kWhiteText
                         : theme.kTextColor,
                   ),

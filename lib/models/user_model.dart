@@ -4,7 +4,6 @@ class UserModel {
   String? uid;
   String? name;
   String? email;
-  String? password;
   Timestamp? accountCreatedAt;
   List<String>? participatedInPoll;
   List<String>? pollsCreated;
@@ -13,7 +12,6 @@ class UserModel {
     this.uid,
     this.name,
     this.email,
-    this.password,
     this.accountCreatedAt,
     this.participatedInPoll,
     this.pollsCreated,
@@ -22,7 +20,6 @@ class UserModel {
   Map<String, dynamic> toJson() => {
         'name': name,
         'email': email,
-        'password': password,
         'accountCreatedAt': accountCreatedAt,
         'participatedInPoll': participatedInPoll,
         'pollsCreated': pollsCreated,
