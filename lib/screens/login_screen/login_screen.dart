@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import '../../widgets/background_design.dart';
 import 'widgets/bottom_container.dart';
 import 'widgets/login_credentials.dart';
@@ -19,37 +20,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  // Widget _googleButton() {
-  //   return OutlinedButton(
-  //     style: OutlinedButton.styleFrom(
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-  //     ),
-  //     onPressed: () {
-  //       _logInUser(type: LoginType.google, context: context);
-  //     },
-  //     child: Padding(
-  //       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-  //       child: Row(
-  //         mainAxisSize: MainAxisSize.min,
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         children: const <Widget>[
-  //           // Image(image: AssetImage("assets/google_logo.png"), height: 25.0),
-  //           Padding(
-  //             padding: EdgeInsets.only(left: 10),
-  //             child: Text(
-  //               'Sign in with Google',
-  //               style: TextStyle(
-  //                 fontSize: 20,
-  //                 color: Colors.grey,
-  //               ),
-  //             ),
-  //           )
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
   @override
   void dispose() {
     _emailController.dispose();
@@ -59,11 +29,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+          width: S.width(size.width),
+          height: S.height(size.height),
           child: Stack(
             children: [
               BackgroundDesign(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import 'package:provider/provider.dart';
 import '../../../models/poll_model.dart';
 import '../../../models/user_model.dart';
@@ -39,9 +40,9 @@ class ShowPollList extends StatelessWidget {
             itemCount: provider.activePollList.length + 1,
             itemBuilder: (context, index) {
               if (index == 0) {
-                return const Padding(
-                  padding: EdgeInsets.only(left: 30.0, top: 15.0),
-                  child: Text(
+                return  Padding(
+                  padding: S.only(left: 18,top: 15),
+                  child: const Text(
                     'Ongoing Polls',
                     style: TextStyle(
                       fontSize: 26,

@@ -1,5 +1,6 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 
 Widget listView(
   List<TextField> textFields,
@@ -13,7 +14,7 @@ Widget listView(
     itemBuilder: (context, index) {
       if (index == 0) {
         return Padding(
-          padding: const EdgeInsets.only(
+          padding: S.only(
             top: 20,
             left: 15,
             bottom: 5,
@@ -36,7 +37,7 @@ Widget listView(
         );
       } else if (index == 1) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+          padding:  S.symmetric(horizontal: 15.0, vertical: 10.0),
           child: ClayContainer(
             borderRadius: 30,
             surfaceColor: Colors.white,
@@ -54,7 +55,7 @@ Widget listView(
         );
       }
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        padding: S.symmetric(horizontal: 15, vertical: 10),
         child: ClayContainer(
           borderRadius: 30,
           surfaceColor: Colors.white,

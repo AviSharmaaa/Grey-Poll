@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import '../../utils/app_theme.dart';
 import '../../widgets/background_design.dart';
 import 'widgets/build_page.dart';
@@ -85,7 +86,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             ],
           ),
           Container(
-            alignment: const Alignment(0, 0.75),
+            alignment: Alignment(S.width(0)!, S.height(0.75)!),
             child: TabPageSelector(
               selectedColor: theme.kPrimaryColor,
               controller: tabController,

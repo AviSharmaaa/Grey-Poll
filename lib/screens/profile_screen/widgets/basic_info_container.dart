@@ -1,5 +1,6 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import '../../../models/user_model.dart';
 import '../../../utils/app_theme.dart';
 
@@ -18,8 +19,8 @@ class BasicInfoContainer extends StatelessWidget {
     return Column(
       children: [
         ClayContainer(
-          width: 120,
-          height: 120,
+          width: S.width(120),
+          height: S.height(120),
           surfaceColor: theme.kPrimaryColor,
           parentColor: theme.kCanvasColor,
           borderRadius: 200,
@@ -40,7 +41,7 @@ class BasicInfoContainer extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(12),
+          padding: S.all(12),
           child: Column(
             children: [
               Text(

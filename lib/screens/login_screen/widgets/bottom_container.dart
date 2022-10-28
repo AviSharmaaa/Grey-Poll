@@ -1,6 +1,7 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import 'package:provider/provider.dart';
 import '../../../state/current_user_state.dart';
 import '../../../utils/app_theme.dart';
@@ -70,15 +71,14 @@ class _BottomContainerState extends State<BottomContainer> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Positioned(
-      bottom: 60,
-      left: 0,
-      right: 0,
+      bottom: S.height(60),
+      left: S.width(0),
+      right: S.width(0),
       child: Column(
         children: [
           SizedBox(
-            height: size.height * 0.07,
+            height: S.height(0.07),
           ),
           ClayAnimatedContainer(
             duration: const Duration(milliseconds: 300),
@@ -87,7 +87,10 @@ class _BottomContainerState extends State<BottomContainer> {
             borderRadius: 30,
             curveType: CurveType.concave,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 55, vertical: 15),
+              padding: S.symmetric(
+                horizontal: 50,
+                vertical: 15,
+              ),
               child: GestureDetector(
                 onTapDown: (val) {
                   setState(() {
@@ -117,7 +120,10 @@ class _BottomContainerState extends State<BottomContainer> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+            margin: S.symmetric(
+              vertical: 20,
+              horizontal: 10,
+            ),
             child: Text.rich(
               TextSpan(
                 children: [

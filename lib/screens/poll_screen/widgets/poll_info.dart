@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import '../../../models/poll_model.dart';
 
 class PollInfo extends StatelessWidget {
@@ -14,7 +15,7 @@ class PollInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
+      padding: S.symmetric(
         vertical: 10,
         horizontal: 0,
       ),
@@ -34,9 +35,9 @@ class PollInfo extends StatelessWidget {
             ),
           ],
         ),
-        width: size.width,
+        width: S.width(size.width),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
+          padding: S.symmetric(
             horizontal: 20,
             vertical: 20,
           ),
@@ -50,8 +51,8 @@ class PollInfo extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(
-                height: 15,
+              SizedBox(
+                height: S.height(15),
               ),
               const Text(
                 'About',
@@ -60,8 +61,8 @@ class PollInfo extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(
-                height: 5,
+              SizedBox(
+                height: S.height(5),
               ),
               Text(
                 activePoll!.description!,
@@ -70,8 +71,8 @@ class PollInfo extends StatelessWidget {
                   fontWeight: FontWeight.w300,
                 ),
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: S.height(10),
               ),
             ],
           ),

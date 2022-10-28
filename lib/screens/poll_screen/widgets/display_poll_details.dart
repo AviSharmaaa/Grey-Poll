@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../models/poll_model.dart';
 import '../../../state/poll_state.dart';
 import '../../../utils/app_theme.dart';
+import '../../../utils/size_config.dart';
 import 'display_options.dart';
 import 'poll_info.dart';
 
@@ -24,8 +25,8 @@ class DisplayPollDetails extends StatelessWidget {
     return Column(
       children: [
         PollInfo(size: size, activePoll: activePoll),
-        const SizedBox(
-          height: 20,
+        SizedBox(
+          height: S.height(20),
         ),
         for (String option in pollOptions)
           DisplayOptions(provider: provider, option: option),

@@ -1,5 +1,6 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import '../../../state/current_user_state.dart';
 import '../../../utils/app_theme.dart';
 
@@ -72,18 +73,17 @@ class _DetailsContainerState extends State<DetailsContainer> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: S.symmetric(horizontal: 8.0),
       child: Container(
-        padding: const EdgeInsets.symmetric(
+        padding: S.symmetric(
           horizontal: 20,
           vertical: 20,
         ),
-        width: size.width * 0.95,
+        width: S.percentWidth(0.95),
         decoration: BoxDecoration(
           color: theme.kCanvasColor,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(S.width(20)!),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -106,7 +106,7 @@ class _DetailsContainerState extends State<DetailsContainer> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  padding: S.symmetric(horizontal: 10.0),
                   child: InkWell(
                     onTap: () async {
                       final scaffoldMessager = ScaffoldMessenger.of(context);
@@ -130,7 +130,7 @@ class _DetailsContainerState extends State<DetailsContainer> {
                       depth: 40,
                       curveType: CurveType.concave,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
+                        padding: S.symmetric(
                           horizontal: 15,
                           vertical: 10,
                         ),
@@ -148,11 +148,11 @@ class _DetailsContainerState extends State<DetailsContainer> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: S.height(20),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8, bottom: 14),
+              padding: S.only(left: 8, bottom: 14),
               child: Row(
                 children: [
                   Text(
@@ -186,7 +186,6 @@ class _DetailsContainerState extends State<DetailsContainer> {
                     prefixIcon: Icon(
                       widget.icon,
                     ),
-                    // if(fieldName == 'Password')
                     suffixIcon: (widget.fieldName == 'Password')
                         ? IconButton(
                             onPressed: showPassword,

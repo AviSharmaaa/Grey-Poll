@@ -1,5 +1,6 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import 'package:provider/provider.dart';
 import '../../../state/poll_state.dart';
 import '../../../utils/app_theme.dart';
@@ -15,8 +16,8 @@ Widget optionTile(
     listen: false,
   );
   return ClayContainer(
-      height: 50,
-      width: 115,
+      height: S.height(50),
+      width: S.width(115),
       borderRadius: 30,
       depth: 100,
       surfaceColor:
@@ -43,16 +44,16 @@ Widget optionTile(
         splashFactory: NoSplash.splashFactory,
         highlightColor: Colors.transparent,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: S.all(8.0),
           child: Row(
             children: [
               Icon(
                 (controllers.length < 4) ? Icons.add : Icons.cancel_outlined,
-                size: 30,
+                size: S.width(30),
                 color: (controllers.length < 4) ? Colors.white : Colors.red,
               ),
-              const SizedBox(
-                width: 10,
+              SizedBox(
+                width: S.width(10),
               ),
               Text(
                 'ADD',

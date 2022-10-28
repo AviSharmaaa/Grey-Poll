@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import '../../../state/poll_state.dart';
 import '../../../utils/app_theme.dart';
 
@@ -16,7 +17,7 @@ class DisplayOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
+      padding: S.symmetric(
         horizontal: 10.0,
         vertical: 15.0,
       ),
@@ -43,7 +44,7 @@ class DisplayOptions extends StatelessWidget {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: S.all(20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

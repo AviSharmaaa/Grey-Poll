@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import '../../models/poll_model.dart';
 import '../../utils/app_theme.dart';
 import '../../widgets/background_design.dart';
@@ -19,7 +20,6 @@ class PollActivityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -38,7 +38,7 @@ class PollActivityScreen extends StatelessWidget {
       body: Stack(
         children: [
           BackgroundDesign(
-            shapeOneRight: -size.width * 0.22,
+            shapeOneRight: S.percentWidth(-0.22)!,
             shapeOneTop: 0.12,
             shapeTwoLeft: 0.15,
             shapeTwoBottom: 0.05,
@@ -46,7 +46,7 @@ class PollActivityScreen extends StatelessWidget {
             shapeThreeBottom: 0,
             shapeFourLeft: 0.03,
             shapeFourBottom: 45,
-            sizedboxThreeHeight: size.height * 0.55,
+            sizedboxThreeHeight: S.percentHeight(0.55),
           ),
           ShowPollsCreatedByUser(),
         ],

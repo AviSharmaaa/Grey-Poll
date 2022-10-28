@@ -1,6 +1,7 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:online_voting_app/utils/app_theme.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 
 class BackgroundDesign extends StatelessWidget {
   BackgroundDesign({
@@ -36,47 +37,45 @@ class BackgroundDesign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Stack(
       children: [
         SizedBox(
-          height: (sizedboxOneHeight == null) ? size.height : sizedboxOneHeight,
+          height: (sizedboxOneHeight == null) ? S.percentHeight(1.0) : S.height(sizedboxOneHeight),
           child: Stack(
             children: [
               Positioned(
-                right: shapeOneRight,
-                top: -size.height * shapeOneTop,
+                right: S.width(shapeOneRight),
+                top: S.percentHeight(-shapeOneTop),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
                     ClayContainer(
                       color: theme.kPrimaryColor,
-                      width: 220,
-                      height: 220,
+                      width: S.width(220),
+                      height: S.height(220),
                       borderRadius: 200,
                       depth: -50,
                       curveType: CurveType.convex,
                     ),
                     ClayContainer(
                       color: theme.kPrimaryColor,
-                      width: 180,
-                      height: 180,
+                      width: S.width(180),
+                      height: S.height(180),
                       borderRadius: 200,
                       depth: 50,
                     ),
                     ClayContainer(
                       color: theme.kPrimaryColor,
-                      width: 140,
-                      height: 140,
+                      width: S.width(140),
+                      height: S.height(140),
                       borderRadius: 200,
                       depth: -50,
                       curveType: CurveType.convex,
                     ),
                     ClayContainer(
                       color: theme.kPrimaryColor,
-                      width: 100,
-                      height: 100,
+                      width: S.width(100),
+                      height: S.height(100),
                       borderRadius: 200,
                       depth: 50,
                     ),
@@ -87,35 +86,35 @@ class BackgroundDesign extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: (sizedboxTwoHeight == null) ? size.height * 0.4 : sizedboxTwoHeight,
+          height: (sizedboxTwoHeight == null) ? S.percentHeight(0.4) : S.height(sizedboxTwoHeight),
           child: Stack(
             children: [
               Positioned(
-                left: -size.width * shapeTwoLeft,
-                bottom: size.height * shapeTwoBottom,
+                left: S.percentWidth(-shapeTwoLeft),
+                bottom: S.percentHeight(shapeTwoBottom),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
                     ClayContainer(
                       color: theme.kPrimaryColor,
-                      width: 160,
-                      height: 160,
+                      width: S.width(160),
+                      height: S.height(160),
                       borderRadius: 200,
                       depth: 50,
                       curveType: CurveType.convex,
                     ),
                     ClayContainer(
                       color: theme.kPrimaryColor,
-                      width: 140,
-                      height: 140,
+                      width: S.width(140),
+                      height: S.height(140),
                       borderRadius: 200,
                       depth: -50,
                       curveType: CurveType.convex,
                     ),
                     ClayContainer(
                       color: theme.kPrimaryColor,
-                      width: 70,
-                      height: 70,
+                      width: S.width(70),
+                      height: S.height(70),
                       borderRadius: 200,
                       depth: 50,
                     ),
@@ -126,43 +125,43 @@ class BackgroundDesign extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: (sizedboxThreeHeight == null) ? size.height * 0.43 : sizedboxThreeHeight,
+          height: (sizedboxThreeHeight == null) ? S.percentHeight(0.43) : S.height(sizedboxThreeHeight),
           child: Stack(
             children: [
               Positioned(
-                left: size.width * shapeThreeLeft,
-                bottom: shapeThreeBottom,
+                left: S.percentWidth(shapeThreeLeft),
+                bottom: S.height(shapeThreeBottom),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
                     ClayContainer(
                       color: theme.kPrimaryColor,
-                      width: 100,
-                      height: 100,
+                      width: S.width(100),
+                      height: S.height(100),
                       borderRadius: 200,
                       depth: 50,
                       curveType: CurveType.convex,
                     ),
                     ClayContainer(
                       color: theme.kPrimaryColor,
-                      width: 80,
-                      height: 80,
+                      width: S.width(80),
+                      height: S.height(80),
                       borderRadius: 200,
                       depth: -50,
                       curveType: CurveType.convex,
                     ),
                     ClayContainer(
                       color: theme.kPrimaryColor,
-                      width: 60,
-                      height: 60,
+                      width: S.width(60),
+                      height: S.height(60),
                       borderRadius: 200,
                       depth: 50,
                       curveType: CurveType.concave,
                     ),
                     ClayContainer(
                       color: theme.kPrimaryColor,
-                      width: 30,
-                      height: 30,
+                      width: S.width(30),
+                      height: S.height(30),
                       borderRadius: 200,
                       depth: 50,
                       curveType: CurveType.convex,
@@ -174,35 +173,35 @@ class BackgroundDesign extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: (sizedboxFourHeight == null) ? size.height : sizedboxFourHeight,
+          height: (sizedboxFourHeight == null) ? S.percentHeight(1.0) : S.height(sizedboxFourHeight),
           child: Stack(
             children: [
               Positioned(
-                left: size.width * shapeFourLeft,
+                left: S.percentWidth(shapeFourLeft),
                 bottom: shapeFourBottom,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
                     ClayContainer(
                       color: theme.kPrimaryColor,
-                      width: 80,
-                      height: 80,
+                      width: S.width(80),
+                      height: S.height(80),
                       borderRadius: 200,
                       depth: 50,
                       curveType: CurveType.convex,
                     ),
                     ClayContainer(
                       color: theme.kPrimaryColor,
-                      width: 50,
-                      height: 50,
+                      width: S.width(50),
+                      height: S.height(50),
                       borderRadius: 200,
                       depth: -50,
                       curveType: CurveType.convex,
                     ),
                     ClayContainer(
                       color: theme.kPrimaryColor,
-                      width: 20,
-                      height: 20,
+                      width: S.width(20),
+                      height: S.height(20),
                       borderRadius: 200,
                       depth: 50,
                       curveType: CurveType.convex,

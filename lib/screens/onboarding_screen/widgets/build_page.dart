@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 
 Column buildPage(
   BuildContext context,
@@ -13,20 +14,18 @@ Column buildPage(
       SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20.0,
-            vertical: 150.0,
+          padding: S.symmetric(
+            horizontal: 20,
+            vertical: 150,
           ),
           child: Column(
             children: [
               SvgPicture.asset(
-                height: MediaQuery.of(context).size.height * 0.40,
                 imagePath,
+                height: S.percentHeight(0.45),
               ),
               Padding(
-                padding: EdgeInsets.only(
-                  top: topPadding,
-                ),
+                padding: S.only(top: topPadding),
                 child: Text(
                   title,
                   textAlign: TextAlign.center,
@@ -38,9 +37,7 @@ Column buildPage(
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10.0,
-                ),
+                padding: S.symmetric(vertical: 10.0),
                 child: Text(
                   content,
                   textAlign: TextAlign.center,

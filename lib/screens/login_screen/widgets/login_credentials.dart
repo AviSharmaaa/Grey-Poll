@@ -1,5 +1,6 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import 'package:provider/provider.dart';
 import '../../../state/current_user_state.dart';
 import '../../../utils/app_theme.dart';
@@ -52,15 +53,13 @@ class _LoginCredentialsState extends State<LoginCredentials> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
+  Widget build(BuildContext context) { 
     return Positioned(
-      top: size.height * 0.35,
-      left: 0,
-      right: 0,
+      top: S.percentHeight(0.35),
+      left: S.width(0),
+      right: S.width(0),
       child: Padding(
-        padding: const EdgeInsets.all(30.0),
+        padding: S.all(30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -79,8 +78,8 @@ class _LoginCredentialsState extends State<LoginCredentials> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(
-              height: 40,
+            SizedBox(
+              height: S.height(40),
             ),
             ClayAnimatedContainer(
               duration: const Duration(milliseconds: 300),
@@ -101,8 +100,8 @@ class _LoginCredentialsState extends State<LoginCredentials> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 40,
+            SizedBox(
+              height: S.height(40),
             ),
             ClayAnimatedContainer(
               duration: const Duration(milliseconds: 300),
@@ -131,7 +130,7 @@ class _LoginCredentialsState extends State<LoginCredentials> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(10, 10, 10, 20),
+              margin: S.only(top: 10,left: 10,right: 10,bottom: 20),
               alignment: Alignment.topLeft,
               child: GestureDetector(
                 onTap: () {

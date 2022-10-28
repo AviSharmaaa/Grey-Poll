@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:online_voting_app/main.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import 'package:online_voting_app/widgets/background_design.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,15 +33,13 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.logout_outlined,
-              size: 30,
+              size: S.width(30),
             ),
             onPressed: () async {
               final navigator = Navigator.of(context);
@@ -64,7 +63,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       body: Stack(children: [
         BackgroundDesign(
-          shapeOneRight: -size.width * 0.22,
+          shapeOneRight: S.percentWidth(-0.22)!,
           shapeOneTop: 0.12,
           shapeTwoLeft: 0.15,
           shapeTwoBottom: 0.05,
@@ -72,7 +71,7 @@ class ProfileScreen extends StatelessWidget {
           shapeThreeBottom: 0,
           shapeFourLeft: 0.03,
           shapeFourBottom: 45,
-          sizedboxThreeHeight: size.height * 0.50,
+          sizedboxThreeHeight: S.percentHeight(0.50),
         ),
         const SingleChildScrollView(
           child: ProfileSection(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import '../../../utils/app_theme.dart';
 import 'get_started_button.dart';
 import 'skip_button.dart';
@@ -33,9 +34,11 @@ class _NavigationWidgetState extends State<NavigationWidget> {
             );
     });
     return Container(
-      alignment: const Alignment(0, 0.90),
+      alignment: Alignment(S.width(0)!, S.height(0.90)!),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: S.symmetric(
+          horizontal: 20,
+        ),
         child: Row(
           mainAxisAlignment: (widget.isLastPage)
               ? MainAxisAlignment.end

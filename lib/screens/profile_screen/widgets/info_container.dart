@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import '../../../utils/app_theme.dart';
 
 class InfoContainer extends StatelessWidget {
@@ -14,8 +15,8 @@ class InfoContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 160,
-      padding: const EdgeInsets.all(12),
+      width: S.width(160),
+      padding: S.all(12),
       decoration: BoxDecoration(
         color: theme.kCanvasColor,
         borderRadius: BorderRadius.circular(10),

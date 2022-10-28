@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:online_voting_app/screens/poll_activity/poll_activity_screen.dart';
 import 'package:online_voting_app/state/poll_state.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import 'package:provider/provider.dart';
 import '../../../state/current_user_state.dart';
 import '../../../models/user_model.dart';
@@ -45,21 +46,20 @@ class _ProfileSectionState extends State<ProfileSection> {
           ? user.participatedInPoll!.length
           : 0;
 
-      final int pollCreatedCount = (user.pollsCreated != null)
-          ? user.pollsCreated!.length
-          : 0;
-          
+      final int pollCreatedCount =
+          (user.pollsCreated != null) ? user.pollsCreated!.length : 0;
+
       final String obscureString = '*' * 10;
 
       final String uid = user.uid!;
 
       return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
+        padding: S.symmetric(vertical: 20, horizontal: 8),
         child: Column(
           children: <Widget>[
             BasicInfoContainer(user: user),
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: S.height(15),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -86,8 +86,8 @@ class _ProfileSectionState extends State<ProfileSection> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 35,
+            SizedBox(
+              height: S.height(35),
             ),
             DetailsContainer(
               formKey: _nameKey,
@@ -98,8 +98,8 @@ class _ProfileSectionState extends State<ProfileSection> {
               icon: Icons.person,
               provider: provider,
             ),
-            const SizedBox(
-              height: 40,
+            SizedBox(
+              height: S.height(40),
             ),
             DetailsContainer(
               formKey: _emailKey,
@@ -110,8 +110,8 @@ class _ProfileSectionState extends State<ProfileSection> {
               icon: Icons.alternate_email,
               provider: provider,
             ),
-            const SizedBox(
-              height: 40,
+            SizedBox(
+              height: S.height(40),
             ),
             DetailsContainer(
               formKey: _passwordKey,
@@ -122,8 +122,8 @@ class _ProfileSectionState extends State<ProfileSection> {
               icon: Icons.lock_outline_sharp,
               provider: provider,
             ),
-            const SizedBox(
-              height: 8,
+            SizedBox(
+              height: S.height(40),
             ),
           ],
         ),

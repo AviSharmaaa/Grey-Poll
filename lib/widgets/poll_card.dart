@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../models/poll_model.dart';
 import '../../../state/poll_state.dart';
 import '../../../utils/app_theme.dart';
+import '../utils/size_config.dart';
 
 class PollCard extends StatelessWidget {
   PollCard({
@@ -125,8 +126,8 @@ class PollCard extends StatelessWidget {
     String activePollId = provider.getActivePoll?.pollId ?? '';
 
     int totalVotes = calculateTotalVotes(poll);
-    String pollTitle = (poll.pollTitle!.length > 20)
-        ? '${poll.pollTitle!.substring(0, 20)}...'
+    String pollTitle = (poll.pollTitle!.length > 16)
+        ? '${poll.pollTitle!.substring(0, 15)}...'
         : poll.pollTitle!;
 
     String description = (poll.description!.length >= 74)
@@ -137,7 +138,7 @@ class PollCard extends StatelessWidget {
     final navigator = Navigator.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 18.0),
+      padding: S.symmetric(horizontal: 15.0, vertical: 18.0),
       child: InkWell(
         onTap: () {
           onTap(context, scaffoldMessenger, navigator);
@@ -162,7 +163,7 @@ class PollCard extends StatelessWidget {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: S.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -194,8 +195,8 @@ class PollCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 6,
+                SizedBox(
+                  height: S.height(10),
                 ),
                 Text(
                   "About",

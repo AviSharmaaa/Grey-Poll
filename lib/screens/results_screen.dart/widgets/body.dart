@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:online_voting_app/utils/app_theme.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import 'package:provider/provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import '../../../models/poll_model.dart';
@@ -24,7 +25,6 @@ class Body extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  // final activePoll = Provider.of<PollState>(context, listen: false).getActivePoll!;
   final AppTheme theme = AppTheme();
 
   Widget createChart(BuildContext context, PollModel activePoll) {
@@ -74,7 +74,6 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     PollState provider = Provider.of<PollState>(context, listen: false);
     final PollModel activePoll = provider.getActivePoll!;
     retriveActivePollData(provider, activePoll);
@@ -82,7 +81,7 @@ class Body extends StatelessWidget {
     return Stack(
       children: [
         BackgroundDesign(
-          shapeOneRight: -size.width * 0.22,
+          shapeOneRight: S.percentWidth(-0.22)!,
           shapeOneTop: 0.12,
           shapeTwoLeft: 0.15,
           shapeTwoBottom: 0.05,
@@ -90,17 +89,17 @@ class Body extends StatelessWidget {
           shapeThreeBottom: 0,
           shapeFourLeft: 0.03,
           shapeFourBottom: 45,
-          sizedboxThreeHeight: size.height * 0.435,
+          sizedboxThreeHeight: S.percentHeight(0.435),
         ),
         Positioned(
-          child: PollInfo(size: size, activePoll: activePoll),
+          child: PollInfo(activePoll: activePoll),
         ),
         Positioned(
-          bottom: 0,
+          bottom: S.height(0),
           child: Container(
-            padding: const EdgeInsets.all(20),
-            width: size.width,
-            height: size.height * 0.45,
+            padding: S.all(20),
+            width: S.percentWidth(1.0),
+            height: S.percentHeight(0.45),
             color: theme.kCanvasColor,
             child: createChart(context, activePoll),
           ),

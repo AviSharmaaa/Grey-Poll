@@ -1,5 +1,6 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import '../../../utils/app_theme.dart';
 
 class BottomNavBarIcon extends StatelessWidget {
@@ -20,18 +21,18 @@ class BottomNavBarIcon extends StatelessWidget {
     return ClayAnimatedContainer(
       duration: const Duration(milliseconds: 500),
       borderRadius: 200,
-      width: (currentIndex == index) ? 100 : 45,
-      height: 45,
+      width: (currentIndex == index) ? S.width(100) : S.width(45),
+      height: S.height(45),
       depth: (currentIndex == index) ? 30 : 50,
       curveType: CurveType.concave,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: S.all(8),
         child: Icon(
           icon,
           color: (currentIndex == index)
               ? theme.kPrimaryColor
               : theme.kSecondaryColor2,
-          size: (currentIndex == index) ? 30 : 24,
+          size: (currentIndex == index) ? S.width(30) : S.width(24),
         ),
       ),
     );

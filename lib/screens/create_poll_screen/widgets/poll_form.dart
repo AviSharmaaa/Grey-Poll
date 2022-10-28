@@ -1,5 +1,6 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../../../state/current_user_state.dart';
@@ -138,7 +139,7 @@ class _PollFormState extends State<PollForm> {
       borderRadius: 30,
       curveType: CurveType.concave,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 15),
+        padding: S.symmetric(horizontal: 45, vertical: 15),
         child: GestureDetector(
           onTapDown: (val) {
             setState(() {
@@ -167,39 +168,38 @@ class _PollFormState extends State<PollForm> {
 
   @override
   Widget build(BuildContext context) {
-    
-      return Column(
-        children: [
-          const SizedBox(
-            height: 30,
+    return Column(
+      children: [
+        SizedBox(
+          height: S.height(30),
+        ),
+        Padding(
+          padding: S.symmetric(horizontal: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              optionTile(
+                context,
+                _controllers,
+                _textFields,
+                theme,
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                optionTile(
-                  context,
-                  _controllers,
-                  _textFields,
-                  theme,
-                ),
-              ],
-            ),
-          ),
-          listView(
-            _textFields,
-            _titleController,
-            _descriptionController,
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          _submitButton(),
-          const SizedBox(
-            height: 30,
-          ),
-        ],
-      );
+        ),
+        listView(
+          _textFields,
+          _titleController,
+          _descriptionController,
+        ),
+        SizedBox(
+          height: S.height(30),
+        ),
+        _submitButton(),
+        SizedBox(
+          height: S.height(30),
+        ),
+      ],
+    );
   }
 }

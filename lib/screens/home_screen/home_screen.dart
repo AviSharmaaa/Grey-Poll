@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_voting_app/utils/size_config.dart';
 import 'package:provider/provider.dart';
 import '../../state/poll_state.dart';
 import '../../utils/app_theme.dart';
@@ -26,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: theme.kPrimaryColor,
@@ -40,12 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: theme.kWhiteText,
               ),
             ),
-            const SizedBox(
-              width: 8,
+            SizedBox(
+              width: S.width(8),
             ),
-            const Icon(
+            Icon(
               Icons.poll_outlined,
-              size: 28,
+              size: S.width(28),
             ),
           ],
         ),
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: [
           BackgroundDesign(
-            shapeOneRight: -size.width * 0.18,
+            shapeOneRight:  S.percentWidth(-0.18)!,
             shapeOneTop: 0.12,
             shapeTwoLeft: 0.15,
             shapeTwoBottom: 0.05,
@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
             shapeThreeBottom: 0,
             shapeFourLeft: 0.03,
             shapeFourBottom: 45,
-            sizedboxThreeHeight: size.height * 0.50,
+            sizedboxThreeHeight: S.percentHeight(0.50),
           ),
           ShowPollList(),
         ],
